@@ -10,14 +10,14 @@ import {
   placeAfter,
   placeAt,
   placeBefore,
-  renderPlayButton,
+  renderLaunchButtons,
   renderStoreBanner,
 } from "../badge/badge";
 import { ownedButtonAnchor } from "./ownership";
 import { log } from "../shared/log";
 
 const SLOT_ID = "gfn-check-store-slot";
-const PLAY_SLOT_ID = "gfn-check-play-slot";
+const LAUNCH_SLOT_ID = "gfn-check-launch-slot";
 // The banner sits right under the game title/header. We try the header anchors
 // first (placed after them) and fall back to just above the purchase block.
 // These are the selectors to re-verify against the live store page if placement
@@ -55,7 +55,7 @@ let attempt = 0;
  *  answer into a different definitive answer (see resolve-state.ts). */
 function paint(next: BadgeState): void {
   paintBanner(next);
-  paintPlayButton(next);
+  paintLaunchButtons(next);
 }
 
 function paintBanner(next: BadgeState): void {
@@ -75,27 +75,28 @@ function paintBanner(next: BadgeState): void {
   placeBefore(document, PURCHASE_SELECTOR, badge);
 }
 
-/** A second, optional injection: "Play on GeForce NOW" beside Steam's own play
+/** The second injection: the GeForce NOW launch buttons beside Steam's own play
  *  button, only when the page says the user owns the game (content/ownership.ts)
- *  *and* the catalog says it is streamable with a link to offer. Both facts are
- *  re-read on every paint — ownership from the live DOM, the link from `next` —
- *  and the button is removed when either stops holding, so a purchase-area
- *  rebuild by Steam or another extension cannot strand a stale one. Same stamp
+ *  *and* the catalog says it streams with a link to offer. Both facts are re-read
+ *  on every paint — ownership from the live DOM, the links from `next` — and the
+ *  buttons are removed when either stops holding, so a rebuild of that part of
+ *  the page by Steam or another extension cannot strand stale ones. Same stamp
  *  contract as the banner: an unchanged state on an attached node is a no-op. */
-function paintPlayButton(next: BadgeState): void {
-  const existing = document.getElementById(PLAY_SLOT_ID);
-  const anchor = ownedButtonAnchor(document);
-  const button = anchor === null ? null : renderPlayButton(document, next);
-  if (anchor === null || button === null) {
+function paintLaunchButtons(next: BadgeState): void {
+  if (appId === null) return;
+  const existing = document.getElementById(LAUNCH_SLOT_ID);
+  const anchor = ownedButtonAnchor(document, appId);
+  const buttons = anchor === null ? null : renderLaunchButtons(document, next);
+  if (anchor === null || buttons === null) {
     existing?.remove();
     return;
   }
   const stamp = stateStamp(next);
   if (existing !== null && existing.getAttribute(STATE_ATTR) === stamp) return;
   ensureStyles(document);
-  button.id = PLAY_SLOT_ID;
-  button.setAttribute(STATE_ATTR, stamp);
-  placeAt(document, anchor.el, anchor.mode, button);
+  buttons.id = LAUNCH_SLOT_ID;
+  buttons.setAttribute(STATE_ATTR, stamp);
+  placeAt(document, anchor.el, anchor.mode, buttons);
 }
 
 // Coalesced: a retry timer and a catalog epoch can both fire while a lookup is

@@ -1,6 +1,6 @@
 import type { BadgeState } from "../feed/resolve-state";
 import { BADGE_CSS } from "./badge.css";
-import { resolveBannerLinks } from "./gfn-link";
+import { resolveLaunchLinks } from "./gfn-link";
 
 const STYLE_ID = "gfn-check-style";
 const SVG_NS = "http://www.w3.org/2000/svg";
@@ -80,102 +80,90 @@ function span(doc: Document, className: string, text?: string): HTMLElement {
   return el;
 }
 
-/** The muted "web ↗" chip: the escape hatch for a supported game when the
- *  native app route is also on offer but the app may not be installed. Its own
- *  link, a sibling of the main one — nesting anchors is invalid. */
-function webChip(doc: Document, webUrl: string): HTMLAnchorElement {
-  const web = doc.createElement("a");
-  web.className = "gfn-check-web";
-  web.href = webUrl;
-  web.target = "_blank";
-  web.rel = "noopener noreferrer";
-  web.textContent = "web ↗";
-  web.title = "Open in the browser instead of the GeForce NOW app";
-  return web;
-}
-
 /** Prominent full-width banner for a store page, placed near the title.
  *
- *  Supported games link out; everything else is inert. Firefox can't stream
- *  GFN (play.geforcenow.com blocks it as an unsupported browser), so the main
- *  click target prefers the *native app* route and a small "web ↗" chip keeps
- *  the browser link as the no-app fallback — a `geforcenow://` click is a dead
- *  end when the app isn't installed and extensions can't detect that.
- *
- *  See `resolveBannerLinks` for how stale caches degrade to fewer links. The
- *  root stays a <div> in all cases (two sibling links — nesting anchors is
- *  invalid), so placeBefore/placeAfter and the id-keyed re-injection are
- *  unaffected. */
+ *  Informational only: it says whether the game streams (and whether with RTX)
+ *  and links nowhere. Launching lives in `renderLaunchButtons`, beside Steam's
+ *  own play button and only on a game the user owns — a link here would offer
+ *  a launch on games the account cannot stream, and it used to. The root is a
+ *  <div>, so placeBefore/placeAfter and the id-keyed re-injection are unaffected. */
 export function renderStoreBanner(doc: Document, state: BadgeState): HTMLElement {
-  const { appUrl, webUrl } = resolveBannerLinks(state);
-  const mainUrl = appUrl ?? webUrl;
-
   const el = doc.createElement("div");
-  el.className = `gfn-check-banner gfn-check-banner--${modifier(state)}${
-    mainUrl !== null ? " gfn-check-banner--link" : ""
-  }`;
-
-  // Everything except the web chip goes inside `main`: the whole banner face
-  // is the primary click target when linked.
-  let main: HTMLElement = el;
-  if (mainUrl !== null) {
-    const a = doc.createElement("a");
-    a.className = "gfn-check-banner-main";
-    a.href = mainUrl;
-    if (appUrl === null) {
-      // Web link: open the GFN web app in its own tab. The app route instead
-      // stays targetless — Firefox hands the custom scheme to the OS without
-      // leaving the page.
-      a.target = "_blank";
-      a.rel = "noopener noreferrer";
-    }
-    el.appendChild(a);
-    main = a;
-  }
-
+  el.className = `gfn-check-banner gfn-check-banner--${modifier(state)}`;
   const logo = span(doc, "gfn-check-banner-logo");
   logo.appendChild(logoSvg(doc));
-  main.appendChild(logo);
-  main.appendChild(span(doc, "gfn-check-banner-text", bannerLabel(state)));
-
+  el.appendChild(logo);
+  el.appendChild(span(doc, "gfn-check-banner-text", bannerLabel(state)));
   if (state.kind === "supported" && state.rtx) {
-    main.appendChild(span(doc, "gfn-check-rtx", "RTX"));
-  }
-  if (mainUrl !== null) {
-    main.appendChild(span(doc, "gfn-check-play", appUrl !== null ? "Play" : "Play ↗"));
-  }
-  if (appUrl !== null && webUrl !== null) {
-    el.appendChild(webChip(doc, webUrl));
+    el.appendChild(span(doc, "gfn-check-rtx", "RTX"));
   }
   return el;
 }
 
-/** "Play on GeForce NOW" button for a store page whose game the user already
- *  owns (content/ownership.ts decides that). Lives next to Steam's own play
- *  button, so it is styled as one more Steam-sized button rather than as banner
- *  chrome. Same link policy as the banner: the native app route when the index
- *  carries a cmsId, the web app as the stale-cache fallback (marked "↗" and opened
- *  in a new tab), and `null` — render nothing — when the game is not supported or
- *  the cache predates deep links. Never a wrong link, only fewer. */
-export function renderPlayButton(doc: Document, state: BadgeState): HTMLAnchorElement | null {
-  const { appUrl, webUrl } = resolveBannerLinks(state);
-  const url = appUrl ?? webUrl;
-  if (url === null) return null;
+function launchButton(
+  doc: Document,
+  className: string,
+  url: string,
+  label: string,
+  title: string,
+  newTab: boolean,
+): HTMLAnchorElement {
   const a = doc.createElement("a");
-  a.className = "gfn-check-playbtn";
+  a.className = `gfn-check-launch-btn ${className}`;
   a.href = url;
-  if (appUrl === null) {
+  a.title = title;
+  if (newTab) {
     a.target = "_blank";
     a.rel = "noopener noreferrer";
-    a.title = "Open in the GeForce NOW web app";
-  } else {
-    a.title = "Launch in the GeForce NOW app";
   }
-  const logo = span(doc, "gfn-check-playbtn-logo");
-  logo.appendChild(logoSvg(doc));
-  a.appendChild(logo);
-  a.appendChild(span(doc, "gfn-check-playbtn-text", appUrl !== null ? "Play on GeForce NOW" : "Play on GeForce NOW ↗"));
+  a.appendChild(span(doc, "gfn-check-launch-label", label));
   return a;
+}
+
+/** The GeForce NOW launch buttons for a store page whose game the user already
+ *  owns (content/ownership.ts decides that). They sit on the same row as
+ *  Steam's own play button and are styled after the GeForce NOW app's own
+ *  primary/secondary buttons rather than as banner chrome:
+ *
+ *  - "PLAY ON GEFORCE NOW" — the native app deep link (`geforcenow://`).
+ *    Targetless: Firefox hands the custom scheme to the OS without leaving
+ *    the page.
+ *  - "PLAY IN WEB" — the web app, in a new tab, for a machine without the app.
+ *
+ *  Same link policy as `resolveLaunchLinks`: a stale cache with only a gfnId
+ *  gets the web button alone (promoted to the primary style, since it is then
+ *  the one launch on offer), and `null` — render nothing — when the game is not
+ *  supported or the cache predates deep links. Never a wrong link, only fewer.
+ *  Returns one container so the caller has a single node to stamp and place. */
+export function renderLaunchButtons(doc: Document, state: BadgeState): HTMLElement | null {
+  const { appUrl, webUrl } = resolveLaunchLinks(state);
+  if (appUrl === null && webUrl === null) return null;
+  const el = span(doc, "gfn-check-launch");
+  if (appUrl !== null) {
+    el.appendChild(
+      launchButton(
+        doc,
+        "gfn-check-launch-btn--primary gfn-check-launch-app",
+        appUrl,
+        "Play on GeForce NOW",
+        "Launch in the GeForce NOW app",
+        false,
+      ),
+    );
+  }
+  if (webUrl !== null) {
+    el.appendChild(
+      launchButton(
+        doc,
+        `${appUrl === null ? "gfn-check-launch-btn--primary" : "gfn-check-launch-btn--secondary"} gfn-check-launch-web`,
+        webUrl,
+        "Play in Web",
+        "Open in the GeForce NOW web app (new tab)",
+        true,
+      ),
+    );
+  }
+  return el;
 }
 
 /** Insert `badge` right after `anchor`, or as `anchor`'s last child, removing

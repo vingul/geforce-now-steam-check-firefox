@@ -6,15 +6,18 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
-- **"Play on GeForce NOW" beside Steam's play button on games you own.** When a store
-  page shows you already own the game *and* the catalog says it streams, a green button
-  is injected right after Steam's own play button, deep-linking into the GeForce NOW app
-  (web app as the fallback for a cache written before deep links existed). Ownership is
-  read from Steam's markup — the `steam://run/` launch link or the "already in your
-  library" flag — never from the localized button text, so it works in every store
-  language. It comes and goes with the markup: nothing is injected for unowned or
-  unsupported games, and a purchase-area rebuild by Steam or another extension cannot
-  strand a stale button.
+- **Launch buttons beside Steam's play button on games you own; the banner no longer
+  links.** When a store page shows you already own the game *and* the catalog says it
+  streams, two buttons styled after the GeForce NOW app are injected right after Steam's
+  own play button: *Play on GeForce NOW* deep-links into the GeForce NOW app and
+  *Play in Web* opens the web app in a new tab (a cache written before deep links
+  existed gets the web button alone). The banner under the title is informational only
+  now — it used to be the deep link, which offered a launch on games the account cannot
+  stream. Ownership is read from Steam's markup — the `steam://run/` launch link for this
+  app or the "already in your library" flag, wherever on the page they sit — never from
+  the localized button text, so it works in every store language. Nothing is injected for
+  unowned or unsupported games, and a rebuild of that part of the page by Steam or
+  another extension cannot strand stale buttons.
 - **One-command local install.** `scripts/install-local.sh` / `scripts\install-local.cmd`
   build the checkout and either launch Firefox with it loaded (`run`), package an
   unsigned `.xpi` (`xpi`), or sign it through AMO (`sign`), with an `ADDON_ID` override

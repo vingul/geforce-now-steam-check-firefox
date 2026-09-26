@@ -5,11 +5,12 @@ import {
   placeAfter,
   placeAt,
   placeBefore,
-  renderPlayButton,
+  renderLaunchButtons,
   renderStoreBanner,
   renderWishlistPill,
 } from "../src/badge/badge";
 import { gfnAppUrl, gfnPlayUrl } from "../src/badge/gfn-link";
+import type { BadgeState } from "../src/feed/resolve-state";
 
 beforeEach(() => {
   document.head.innerHTML = "";
@@ -57,107 +58,81 @@ describe("renderStoreBanner", () => {
     expect(text).not.toMatch(/\benable\b/i);
   });
 
-  test("supported with cms + gfn ids: main link opens the native app, web chip falls back", () => {
-    const gfnId = "e5bd86f0-3f67-4bec-a505-d1315f3c0d50";
-    const cmsId = 100885011;
-    const el = renderStoreBanner(document, { kind: "supported", rtx: true, gfnId, cmsId });
-    expect(el.tagName).toBe("DIV");
-    expect(el.className).toContain("gfn-check-banner--link");
-
-    // Exact URL serialization is owned by gfn-link.test.ts; here we only care
-    // which link goes where.
-    const main = el.querySelector("a.gfn-check-banner-main")!;
-    expect(main.getAttribute("href")).toBe(gfnAppUrl(cmsId, gfnId));
-    // Custom-scheme links stay in-tab: Firefox hands them to the OS without
-    // navigating, so no target/_blank churn.
-    expect(main.getAttribute("target")).toBeNull();
-    // Logo, label and chips all live inside the click target.
-    expect(main.querySelector(".gfn-check-banner-text")!.textContent).toBe(
-      "Playable on GeForce NOW",
-    );
-    expect(main.querySelector(".gfn-check-rtx")).not.toBeNull();
-    expect(main.querySelector(".gfn-check-play")!.textContent).toBe("Play");
-
-    const web = el.querySelector("a.gfn-check-web")!;
-    expect(web.getAttribute("href")).toBe(gfnPlayUrl(gfnId));
-    expect(web.getAttribute("target")).toBe("_blank");
-    expect(web.getAttribute("rel")).toContain("noopener");
-    expect(web.getAttribute("rel")).toContain("noreferrer");
-  });
-
-  test("supported with only a gfn id (stale v2 cache) links to the web app, no web chip", () => {
-    const gfnId = "uuid-only";
-    const el = renderStoreBanner(document, { kind: "supported", rtx: false, gfnId });
-    expect(el.className).toContain("gfn-check-banner--link");
-    const main = el.querySelector("a.gfn-check-banner-main")!;
-    expect(main.getAttribute("href")).toBe(gfnPlayUrl(gfnId));
-    expect(main.getAttribute("target")).toBe("_blank");
-    expect(main.getAttribute("rel")).toContain("noopener");
-    expect(main.querySelector(".gfn-check-play")!.textContent).toBe("Play ↗");
-    expect(el.querySelector(".gfn-check-web")).toBeNull();
-  });
-
-  test("supported without ids (stale pre-v2 cache) stays a plain non-link banner", () => {
-    const el = renderStoreBanner(document, { kind: "supported", rtx: true });
-    expect(el.tagName).toBe("DIV");
-    expect(el.querySelector("a")).toBeNull();
-    expect(el.className).not.toContain("gfn-check-banner--link");
-    expect(el.querySelector(".gfn-check-play")).toBeNull();
-    expect(el.querySelector(".gfn-check-rtx")).not.toBeNull();
-  });
-
-  test("non-supported states are never links", () => {
-    for (const state of [
-      { kind: "not-supported" } as const,
-      { kind: "unknown" } as const,
-      { kind: "needs-permission" } as const,
-    ]) {
+  test("the banner never links anywhere, whatever ids the state carries", () => {
+    // Launching moved to the buttons beside Steam's own play button, shown only
+    // on an owned game: a link here offered a launch on games the account
+    // cannot stream. The banner stays a plain informational <div>.
+    const states: BadgeState[] = [
+      { kind: "supported", rtx: true, gfnId: "e5bd86f0-3f67-4bec-a505-d1315f3c0d50", cmsId: 100885011 },
+      { kind: "supported", rtx: false, gfnId: "e5bd86f0-3f67-4bec-a505-d1315f3c0d50" },
+      { kind: "supported", rtx: false },
+      { kind: "not-supported" },
+      { kind: "unknown" },
+      { kind: "needs-permission" },
+    ];
+    for (const state of states) {
       const el = renderStoreBanner(document, state);
       expect(el.tagName).toBe("DIV");
       expect(el.querySelector("a")).toBeNull();
-      expect(el.className).not.toContain("gfn-check-banner--link");
-      expect(el.querySelector(".gfn-check-play")).toBeNull();
+      expect(el.className).not.toContain("--link");
     }
   });
 });
 
-describe("renderPlayButton", () => {
+describe("renderLaunchButtons", () => {
   const gfnId = "e5bd86f0-3f67-4bec-a505-d1315f3c0d50";
   const cmsId = 100885011;
 
-  test("supported with both ids launches the native app, same tab", () => {
-    const a = renderPlayButton(document, { kind: "supported", rtx: false, gfnId, cmsId })!;
-    expect(a).not.toBeNull();
-    expect(a.tagName).toBe("A");
-    expect(a.className).toBe("gfn-check-playbtn");
-    expect(a.getAttribute("href")).toBe(gfnAppUrl(cmsId, gfnId));
-    expect(a.target).toBe("");
-    expect(a.querySelector(".gfn-check-playbtn-text")!.textContent).toBe("Play on GeForce NOW");
-    expect(a.querySelector(".gfn-check-playbtn-logo svg")).not.toBeNull();
+  test("supported with both ids: app button (same tab) + web button (new tab)", () => {
+    const el = renderLaunchButtons(document, { kind: "supported", rtx: false, gfnId, cmsId })!;
+    expect(el).not.toBeNull();
+    expect(el.className).toBe("gfn-check-launch");
+    const buttons = el.querySelectorAll<HTMLAnchorElement>("a.gfn-check-launch-btn");
+    expect(buttons.length).toBe(2);
+
+    const app = buttons[0]!;
+    expect(app.className).toContain("gfn-check-launch-btn--primary");
+    expect(app.className).toContain("gfn-check-launch-app");
+    expect(app.getAttribute("href")).toBe(gfnAppUrl(cmsId, gfnId));
+    expect(app.target).toBe("");
+    expect(app.textContent).toBe("Play on GeForce NOW");
+
+    const web = buttons[1]!;
+    expect(web.className).toContain("gfn-check-launch-btn--secondary");
+    expect(web.className).toContain("gfn-check-launch-web");
+    expect(web.getAttribute("href")).toBe(gfnPlayUrl(gfnId));
+    expect(web.target).toBe("_blank");
+    expect(web.rel).toBe("noopener noreferrer");
+    expect(web.textContent).toBe("Play in Web");
   });
 
-  test("supported with only a gfn id (stale v2 cache) degrades to the web app in a new tab", () => {
-    const a = renderPlayButton(document, { kind: "supported", rtx: true, gfnId })!;
-    expect(a.getAttribute("href")).toBe(gfnPlayUrl(gfnId));
-    expect(a.target).toBe("_blank");
-    expect(a.rel).toBe("noopener noreferrer");
-    expect(a.querySelector(".gfn-check-playbtn-text")!.textContent).toBe("Play on GeForce NOW ↗");
+  test("supported with only a gfn id (stale v2 cache): web button alone, promoted to primary", () => {
+    const el = renderLaunchButtons(document, { kind: "supported", rtx: true, gfnId })!;
+    const buttons = el.querySelectorAll<HTMLAnchorElement>("a.gfn-check-launch-btn");
+    expect(buttons.length).toBe(1);
+    expect(buttons[0]!.className).toContain("gfn-check-launch-web");
+    expect(buttons[0]!.className).toContain("gfn-check-launch-btn--primary");
+    expect(buttons[0]!.getAttribute("href")).toBe(gfnPlayUrl(gfnId));
+    expect(buttons[0]!.target).toBe("_blank");
   });
 
   test("supported without ids (stale pre-v2 cache) renders nothing rather than a dead link", () => {
-    expect(renderPlayButton(document, { kind: "supported", rtx: false })).toBeNull();
+    expect(renderLaunchButtons(document, { kind: "supported", rtx: false })).toBeNull();
   });
 
   test("non-supported states render nothing", () => {
-    expect(renderPlayButton(document, { kind: "not-supported" })).toBeNull();
-    expect(renderPlayButton(document, { kind: "unknown" })).toBeNull();
-    expect(renderPlayButton(document, { kind: "needs-permission" })).toBeNull();
+    expect(renderLaunchButtons(document, { kind: "not-supported" })).toBeNull();
+    expect(renderLaunchButtons(document, { kind: "unknown" })).toBeNull();
+    expect(renderLaunchButtons(document, { kind: "needs-permission" })).toBeNull();
   });
 
-  test("never built from innerHTML", () => {
-    const a = renderPlayButton(document, { kind: "supported", rtx: false, gfnId, cmsId })!;
-    expect(a.innerHTML).not.toContain("<script");
-    expect(a.childElementCount).toBe(2);
+  test("labels are plain text nodes, never innerHTML", () => {
+    const el = renderLaunchButtons(document, { kind: "supported", rtx: false, gfnId, cmsId })!;
+    expect(el.innerHTML).not.toContain("<script");
+    for (const a of el.querySelectorAll("a")) {
+      expect(a.childElementCount).toBe(1);
+      expect(a.firstElementChild!.className).toBe("gfn-check-launch-label");
+    }
   });
 });
 

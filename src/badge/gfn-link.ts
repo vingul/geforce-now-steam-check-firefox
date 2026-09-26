@@ -27,7 +27,7 @@ export function gfnAppUrl(cmsId: number, gfnId: string): string {
   );
 }
 
-/** Which links the store banner can offer for a badge state.
+/** Which launch links a badge state can offer.
  *
  *  Only supported games link anywhere, and how far we get depends on which ids
  *  the index entry carries — a stale cache written by an older version, served
@@ -36,10 +36,15 @@ export function gfnAppUrl(cmsId: number, gfnId: string): string {
  *  - v3 entry (gfnId + cmsId) → both: native app link, plus the web link as the
  *    "no app installed" escape hatch
  *  - v2 entry (gfnId only)    → web link only
- *  - v1 entry / not supported → neither; the banner renders inert
+ *  - v1 entry / not supported → neither; nothing to launch
  *
- *  Degrading is always to *fewer* links, never to a wrong one. */
-export function resolveBannerLinks(state: BadgeState): {
+ *  Degrading is always to *fewer* links, never to a wrong one. The store page
+ *  renders these as the two launch buttons beside Steam's own play button
+ *  (badge.ts `renderLaunchButtons`), and only for a game the user owns
+ *  (content/ownership.ts) — GeForce NOW streams a Steam game only from a
+ *  library that has it, so offering a launch on an unowned game would be a
+ *  dead end. */
+export function resolveLaunchLinks(state: BadgeState): {
   appUrl: string | null;
   webUrl: string | null;
 } {

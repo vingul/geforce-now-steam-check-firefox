@@ -13,51 +13,28 @@ export const BADGE_CSS = `
 .gfn-check-banner-logo svg { width:100%; height:100%; display:block; }
 .gfn-check-banner-text { flex:1 1 auto; font-weight:bold; }
 .gfn-check-banner--ok .gfn-check-banner-text { color:#8fd11a; }
-/* The RTX/Play/web chips sit side by side in the banner and share geometry so
-   they read as siblings; only their colors differ. */
-.gfn-check-banner .gfn-check-rtx, .gfn-check-banner .gfn-check-play,
-.gfn-check-banner .gfn-check-web { flex:0 0 auto;
-  font-size:11px; font-weight:bold; padding:2px 8px; border-radius:9px;
-  letter-spacing:.5px; white-space:nowrap; }
-.gfn-check-banner .gfn-check-rtx { background:#76b900; color:#000; }
-.gfn-check-banner .gfn-check-play { border:1px solid #76b900; color:#8fd11a; }
+.gfn-check-banner .gfn-check-rtx { flex:0 0 auto; font-size:11px; font-weight:bold;
+  padding:2px 8px; border-radius:9px; letter-spacing:.5px; white-space:nowrap;
+  background:#76b900; color:#000; }
 
-/* Deep-link banner: the main anchor carries the banner's flex layout AND its
-   padding — the root goes padding:0 — so every pixel that shows the hover face
-   is genuinely clickable (padding on the root would leave dead bands that
-   still look hot). The hover face lives on the anchor itself, which also keeps
-   the muted "web ↗" sibling link visually separate; overflow:hidden clips the
-   face to the root's rounded corners. Explicit colors + no underline so
-   Steam's global anchor styles can't restyle either; hovering the main target
-   underlines the label as the click affordance. */
-.gfn-check-banner--link { padding:0; overflow:hidden; }
-.gfn-check-banner-main { display:flex; align-items:center; gap:10px;
-  flex:1 1 auto; min-width:0; padding:11px 14px; color:inherit; text-decoration:none; }
-.gfn-check-banner-main:hover { background:linear-gradient(90deg,#26470d,#122507);
-  color:#cdee87; }
-.gfn-check-banner-main:hover .gfn-check-banner-text { text-decoration:underline; }
-.gfn-check-banner--link .gfn-check-web { margin-right:14px; }
-.gfn-check-banner .gfn-check-web { border:1px solid #4e6b2a; color:#7e9a55;
-  text-decoration:none; }
-.gfn-check-banner .gfn-check-web:hover { border-color:#76b900; color:#8fd11a; }
-
-/* Owned-game "Play on GeForce NOW" button: a sibling of Steam's own green play
-   button inside the purchase block, sized to match .btn_medium (32px tall,
-   15px Motiva Sans) so the two read as one row of buttons. Explicit colors and
-   no underline so Steam's anchor styles can't restyle it; the hover brightens
-   like Steam's does. */
-.gfn-check-playbtn { display:inline-flex; align-items:center; gap:7px;
-  vertical-align:middle; box-sizing:border-box; height:32px; margin-left:6px;
-  padding:0 15px 0 11px; border-radius:2px; border:none;
-  background:linear-gradient(to right,#76b900 5%,#4f8a00 95%);
-  color:#d2efa6 !important; font-size:15px; line-height:32px; font-weight:normal;
-  font-family:"Motiva Sans",Arial,Helvetica,sans-serif; text-decoration:none !important;
-  white-space:nowrap; cursor:pointer; }
-.gfn-check-playbtn:hover { background:linear-gradient(to right,#8fd11a 5%,#5fa400 95%);
-  color:#fff !important; text-decoration:none !important; }
-.gfn-check-playbtn-logo { width:18px; height:18px; flex:0 0 auto; }
-.gfn-check-playbtn-logo svg { width:100%; height:100%; display:block; }
-.gfn-check-playbtn-text { flex:0 0 auto; }
+/* Launch buttons beside Steam's own play button, styled after the GeForce NOW
+   app: a flat NVIDIA-green primary with bold black uppercase text, and a flat
+   dark secondary with white text, both 36px tall with 2px corners. They are one
+   inline-flex row so they follow Steam's button on the same line, with explicit
+   colors and no underline so Steam's anchor styles cannot restyle them. */
+.gfn-check-launch { display:inline-flex; align-items:center; gap:8px;
+  vertical-align:middle; margin-left:10px; }
+.gfn-check-launch-btn { display:inline-flex; align-items:center; box-sizing:border-box;
+  height:36px; padding:0 18px; border-radius:2px; border:none;
+  font-size:14px; line-height:36px; font-weight:700; letter-spacing:.4px;
+  text-transform:uppercase; white-space:nowrap; cursor:pointer;
+  font-family:"NVIDIA Sans","Motiva Sans",Arial,Helvetica,sans-serif;
+  text-decoration:none !important; transition:background-color .12s ease; }
+.gfn-check-launch-btn--primary { background:#76b900; color:#000 !important; }
+.gfn-check-launch-btn--primary:hover { background:#8ad100; color:#000 !important; }
+.gfn-check-launch-btn--secondary { background:#3b3b3b; color:#fff !important; }
+.gfn-check-launch-btn--secondary:hover { background:#4a4a4a; color:#fff !important; }
+.gfn-check-launch-btn:focus-visible { outline:2px solid #cdee87; outline-offset:2px; }
 
 .gfn-check-pill { display:inline-flex; align-items:center; gap:5px; font-size:12px;
   padding:3px 9px; border-radius:10px; white-space:nowrap; font-weight:bold;

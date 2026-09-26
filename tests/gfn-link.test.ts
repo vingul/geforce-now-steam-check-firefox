@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { gfnAppUrl, gfnPlayUrl, resolveBannerLinks } from "../src/badge/gfn-link";
+import { gfnAppUrl, gfnPlayUrl, resolveLaunchLinks } from "../src/badge/gfn-link";
 import type { BadgeState } from "../src/feed/resolve-state";
 
 const GFN_ID = "e5bd86f0-3f67-4bec-a505-d1315f3c0d50";
@@ -39,28 +39,28 @@ describe("gfnAppUrl", () => {
 // A stale cache written by an older extension version can be served after a
 // failed refetch, so the banner has to cope with entries missing the newer ids.
 // Degrading must always drop links, never produce a wrong one.
-describe("resolveBannerLinks", () => {
+describe("resolveLaunchLinks", () => {
   test("v3 entry (gfnId + cmsId) offers both the app and web links", () => {
-    const links = resolveBannerLinks({ kind: "supported", rtx: true, gfnId: GFN_ID, cmsId: 100885011 });
+    const links = resolveLaunchLinks({ kind: "supported", rtx: true, gfnId: GFN_ID, cmsId: 100885011 });
     expect(links.appUrl).toBe(gfnAppUrl(100885011, GFN_ID));
     expect(links.webUrl).toBe(gfnPlayUrl(GFN_ID));
   });
 
   test("v2 entry (gfnId only) falls back to the web link", () => {
-    const links = resolveBannerLinks({ kind: "supported", rtx: false, gfnId: GFN_ID });
+    const links = resolveLaunchLinks({ kind: "supported", rtx: false, gfnId: GFN_ID });
     expect(links.appUrl).toBeNull();
     expect(links.webUrl).toBe(gfnPlayUrl(GFN_ID));
   });
 
   test("v1 entry (no ids) offers nothing — the banner stays inert", () => {
-    expect(resolveBannerLinks({ kind: "supported", rtx: false })).toEqual({
+    expect(resolveLaunchLinks({ kind: "supported", rtx: false })).toEqual({
       appUrl: null,
       webUrl: null,
     });
   });
 
   test("a cmsId without a gfnId cannot build either link", () => {
-    expect(resolveBannerLinks({ kind: "supported", rtx: false, cmsId: 100885011 })).toEqual({
+    expect(resolveLaunchLinks({ kind: "supported", rtx: false, cmsId: 100885011 })).toEqual({
       appUrl: null,
       webUrl: null,
     });
@@ -71,6 +71,6 @@ describe("resolveBannerLinks", () => {
     { kind: "unknown" },
     { kind: "needs-permission" },
   ])("$kind links nowhere", (state) => {
-    expect(resolveBannerLinks(state)).toEqual({ appUrl: null, webUrl: null });
+    expect(resolveLaunchLinks(state)).toEqual({ appUrl: null, webUrl: null });
   });
 });

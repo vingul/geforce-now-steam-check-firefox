@@ -308,27 +308,34 @@ Check the banner lands under the title/header and above the purchase block, on e
 
 ✅ Exactly one banner per page, correctly placed, no layout breakage.
 
-### B.1a · "Play on GeForce NOW" on owned games
+### B.1a · Launch buttons on owned games
 
 Ownership is read from Steam's markup, never from button text (`src/content/ownership.ts`):
-an `a[href]` in `#game_area_purchase` whose href contains `steam://run/` or
-`steam://launch/`, or the `.game_area_already_in_library` flag. Both are live-Steam
-selectors and can drift silently. **Log in** to a Steam account for this section.
+an `a[href]` anywhere outside Steam's global chrome whose href contains
+`steam://run/<this app id>` or `steam://launch/<this app id>`, or the
+`.game_area_already_in_library` flag. On the live page both sit **above**
+`#game_area_purchase`, in the "already in your library" bar and the play-stats block
+(play button + hours played). Both are live-Steam selectors and can drift silently.
+**Log in** to a Steam account for this section.
 
-- [ ] A game you **own** that is on GFN — ✅ a green *Play on GeForce NOW* button appears
-      right after Steam's own play button, sized like it, on the same row.
-- [ ] Click it — ✅ Firefox hands `geforcenow://` to the OS and the GFN app opens the game
-      (or prompts for the app when it isn't installed). The page itself stays put.
-- [ ] Switch the store language (footer) to something non-English — ✅ the button still
-      appears: detection must survive a localized "Play" label.
-- [ ] A game you own that is **not** on GFN — ✅ no button, banner says *Not on GeForce NOW*.
-- [ ] A game you **don't** own that is on GFN — ✅ no button; the banner alone links out.
-- [ ] A free-to-play game you have **not** claimed — ✅ no button (its "Play Game" is a
+- [ ] A game you **own** that is on GFN — ✅ two buttons appear right after Steam's own
+      play button, on its row: green *PLAY ON GEFORCE NOW* and dark *PLAY IN WEB*, styled
+      like the GeForce NOW app's own buttons.
+- [ ] Click *PLAY ON GEFORCE NOW* — ✅ Firefox hands `geforcenow://` to the OS and the GFN
+      app opens the game (or prompts for the app when it isn't installed). The page stays.
+- [ ] Click *PLAY IN WEB* — ✅ play.geforcenow.com opens in a new tab on that game.
+- [ ] The banner under the title — ✅ is **not** a link any more; it only reports the state.
+- [ ] Switch the store language (footer) to something non-English — ✅ the buttons still
+      appear: detection must survive a localized "Play" label.
+- [ ] A game you own that is **not** on GFN — ✅ no buttons, banner says *Not on GeForce NOW*.
+- [ ] A game you **don't** own that is on GFN — ✅ no buttons; the banner alone, inert.
+- [ ] A free-to-play game you have **not** claimed — ✅ no buttons (its "Play Game" is a
       `steam://install/` route, which must not read as ownership).
-- [ ] An owned DLC page — ✅ one button at most, next to the base game's play button.
-- [ ] Log out, reload — ✅ the button disappears with the ownership markup.
-- [ ] With Augmented Steam installed (see B.3) — ✅ exactly one button after its purchase
-      area rebuild, not two, not zero.
+- [ ] An owned DLC page — ✅ buttons at most once, after the play button or inside the
+      library flag.
+- [ ] Log out, reload — ✅ the buttons disappear with the ownership markup.
+- [ ] With Augmented Steam installed (see B.3) — ✅ exactly one pair of buttons after its
+      rebuild, not two, not zero.
 
 ### B.2 · Wishlist rows
 

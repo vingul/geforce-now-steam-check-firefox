@@ -14,8 +14,8 @@ GeForce NOW catalog and draws a small badge:
 - A neutral *Not available* marker when it isn't in the catalog
 - A *couldn't check* state if the catalog is temporarily unreachable — it **never** shows
   a false "not supported"
-- On a game you already own, a *Play on GeForce NOW* button next to Steam's own play
-  button that launches the game in the GeForce NOW app
+- On a game you already own, *Play on GeForce NOW* and *Play in Web* buttons next to
+  Steam's own play button that launch the game in the GeForce NOW app or the web app
 
 ![A "Playable on GeForce NOW" banner with an RTX chip injected into a Steam store page header](docs/screenshots/store-badge.jpg)
 
