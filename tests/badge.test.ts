@@ -100,11 +100,19 @@ describe("renderLaunchButtons", () => {
     expect(lockup.getAttribute("role")).toBe("img");
     expect(lockup.getAttribute("aria-label")).toBe("GeForce NOW");
     const svg = lockup.querySelector("svg")!;
-    expect(svg.getAttribute("viewBox")).toBe("108 221 584 157");
-    // Layered recolouring of the monochrome source: lime outline, black eye,
-    // white GEFORCE NOW letters, charcoal showing through the holes.
+    expect(svg.getAttribute("viewBox")).toBe("140 221.9 544 155.4");
+    // Drawn onto the button, not as a badge: no lime anywhere, black eye and
+    // wordmark, a charcoal panel spanning the viewBox's full height carrying
+    // white GEFORCE NOW letters.
     const fills = new Set([...svg.querySelectorAll("path, rect, polygon")].map((n) => n.getAttribute("fill")));
-    expect(fills).toEqual(new Set(["#76b900", "#000", "#fff", "#1a1a1a"]));
+    expect(fills).toEqual(new Set(["#000", "#fff", "#1a1a1a"]));
+    const panel = svg.querySelector('polygon[fill="#1a1a1a"]')!;
+    const ys = panel.getAttribute("points")!.split(" ").map((pt) => Number(pt.split(",")[1]));
+    expect(Math.min(...ys)).toBe(221.9);
+    expect(Math.max(...ys)).toBe(377.3);
+    // The wordmark is recovered from the outline's holes through a mask.
+    expect(svg.querySelector("defs mask")).not.toBeNull();
+    expect(svg.querySelector('rect[mask="url(#gfn-check-nvidia-wordmark)"]')).not.toBeNull();
     expect(lockup.textContent).toBe("");
 
     const web = buttons[1]!;

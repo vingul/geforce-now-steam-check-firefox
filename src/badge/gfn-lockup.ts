@@ -1,13 +1,21 @@
 /** The NVIDIA GeForce NOW lockup, from the vector logo supplied for this fork
- *  (Adobe Illustrator export, 800×600, cropped here to the mark's own bounds).
+ *  (Adobe Illustrator export, 800×600), rendered *onto* the green launch button
+ *  rather than as a self-contained badge:
  *
- *  The source is monochrome: one outline path draws the whole parallelogram
- *  with the eye window, the NVIDIA letters and the right-hand panel knocked
- *  out as holes, and separate paths draw the eye, the GEFORCE NOW letters and
- *  the letter counters on top. Recolouring it to the brand lockup is a matter
- *  of what shows through those holes, so it is layered: a charcoal panel under
- *  everything, a lime pad under the eye window, the outline in lime, the eye
- *  in black, the counters back in lime, and the GEFORCE NOW letters in white.
+ *  - the NVIDIA eye and the NVIDIA wordmark in black, straight on the button;
+ *  - a charcoal parallelogram carrying GEFORCE NOW in white, running the full
+ *    height of the button with no gap above or below, flush with its right edge.
+ *
+ *  The source is monochrome: one outline path draws the whole mark with the eye
+ *  window, the NVIDIA letters and the right-hand panel knocked out as holes, and
+ *  separate paths draw the eye, the GEFORCE NOW letters and the letter counters
+ *  on top. The eye and the GEFORCE NOW letters are positive shapes and are used
+ *  as they are. The NVIDIA letters exist only as holes, so they are recovered
+ *  with a luminance mask — a white pad with the outline (and the letters'
+ *  counters) painted black over it — applied to a black rect: what shows is
+ *  exactly the letters. The panel is not the source's (which is inset from the
+ *  mark's top and bottom) but a polygon on the same slant, extended to the full
+ *  height of the viewBox.
  *
  *  Built with createElementNS, never innerHTML, per the repo's injection rules.
  *  NVIDIA, GeForce and GeForce NOW are trademarks of NVIDIA Corporation; the
@@ -15,11 +23,20 @@
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 
-/** The mark's bounds inside the 800×600 export. */
-export const LOCKUP_VIEWBOX = "108 221 584 157";
+/** Horizontal span: from the eye's outer curve to the panel's top-right corner;
+ *  vertical span: the source mark's own top and bottom, so the panel polygon
+ *  below reaches both edges of the box. */
+export const LOCKUP_VIEWBOX = "140 221.9 544 155.4";
 
-const LIME = "#76b900";
 const CHARCOAL = "#1a1a1a";
+
+/** The right-hand panel on the source panel's slant (37.5 in x per 139.8 in y),
+ *  extended from the source's inset edges (y 229.7–369.5) to the full height. */
+const PANEL_POINTS = "329.6,221.9 683.4,221.9 641.8,377.3 287.9,377.3";
+
+/** Region of the NVIDIA wordmark inside the source, used as the mask pad. */
+const WORDMARK = { x: 130, y: 318, w: 156, h: 38 };
+const MASK_ID = "gfn-check-nvidia-wordmark";
 
 const OUTLINE = "M108.4,221.9v155.4h541.1l41.6-155.4H108.4z M183,259.5v-8.4h59.1v62.4H183v-7.3c-25.9-2.4-35.2-29.2-35.2-29.2 S164.2,261,183,259.5L183,259.5z M163.3,348.1h-6.5v-10.3c0-3.3-0.4-5.1-1.4-6.2c-0.8-0.9-2.1-1.3-3.8-1.3h-5.2v17.8h-6.7v-23.5 h11.9c5.8,0,11.7,1.3,11.7,10.5L163.3,348.1z M181.4,348.1h-9.6l-7.6-23.5h7.2l5.3,18.6l5.5-18.6h6.8L181.4,348.1z M198.4,348.1 h-6.6v-23.4h6.6V348.1z M222.9,345c-2,2.2-3.9,3.1-9.6,3.1h-10.8v-23.4h9.3c5.3,0,8.8,0.6,11.3,3.9c1.4,1.8,2.2,4.8,2.2,8.1 C225.2,340.3,224.3,343.6,222.9,345L222.9,345z M234.9,348.1h-6.6v-23.4h6.6V348.1z M257.9,348.1l-1.4-4.1h-10.9l-1.4,4.1h-6.5 l9.3-23.4h8.9l9.4,23.5L257.9,348.1z M269.6,350c-1.8,0-3.3-1.5-3.3-3.3c0-1.8,1.5-3.3,3.3-3.3c1.8,0,3.3,1.5,3.3,3.3l0,0 C272.9,348.6,271.5,350.1,269.6,350C269.7,350.1,269.7,350.1,269.6,350L269.6,350z M643.9,369.5H290l37.5-139.8h353.8L643.9,369.5z";
 
@@ -37,6 +54,13 @@ const COUNTERS: readonly string[] = [
   "M211.9,329.8H209v13.3h2.9c4.1,0,6.8-1.9,6.8-6.7S216,329.8,211.9,329.8z",
 ];
 const A_COUNTER = "247,339.9 255.2,339.9 251.2,329";
+
+/** The ® beside the wordmark: a hole in the outline whose "R" the export
+ *  fills back in white. Painted black into the mask so the R stays open. */
+const REG_MARK: readonly string[] = [
+  "M269.7,344.1c-1.5,0-2.7,1.1-2.7,2.6s1.1,2.7,2.6,2.7c1.5,0,2.7-1.1,2.7-2.6c0,0,0,0,0,0c0-1.4-1.1-2.6-2.5-2.6 C269.7,344.1,269.7,344.1,269.7,344.1z M270.2,348.5l-0.6-1.4h-0.4v1.4h-0.7V345h1.4c0.6,0,1.1,0.4,1.2,1.1c0,0,0,0,0,0 c0,0.4-0.3,0.8-0.6,0.9l0.7,1.4L270.2,348.5z",
+  "M269.8,345.7h-0.6v0.9h0.5c0.2,0,0.5-0.2,0.5-0.4c0,0,0,0,0,0C270.2,345.9,270,345.7,269.8,345.7L269.8,345.7z",
+];
 
 const GEFORCE_NOW: readonly string[] = [
   "M360.8,304.7l18.7,27.5v-27.5h8v41.4h-8.3l-18.7-27.4v27.4h-8v-41.4H360.8z",
@@ -69,22 +93,44 @@ function rect(doc: Document, x: number, y: number, w: number, h: number, fill: s
   return el;
 }
 
+function polygon(doc: Document, points: string, fill: string): SVGPolygonElement {
+  const el = doc.createElementNS(SVG_NS, "polygon");
+  el.setAttribute("points", points);
+  el.setAttribute("fill", fill);
+  return el;
+}
+
 export function renderGfnLockupSvg(doc: Document): SVGSVGElement {
   const svg = doc.createElementNS(SVG_NS, "svg");
   svg.setAttribute("viewBox", LOCKUP_VIEWBOX);
   svg.setAttribute("aria-hidden", "true");
-  // Charcoal shows through every hole: the right panel and the NVIDIA letters.
-  svg.appendChild(rect(doc, 108, 221, 584, 157, CHARCOAL));
-  // Lime pad under the eye window only (the window extends left of its frame
-  // to hold the eye's outer curve, so the pad is wider than the frame's cut).
-  svg.appendChild(rect(doc, 130, 245, 125, 73, LIME));
-  svg.appendChild(path(doc, OUTLINE, LIME));
+
+  // Mask that reveals only the NVIDIA letters: white pad, outline painted
+  // black over it (its holes stay white), counters and ® painted black too.
+  const defs = doc.createElementNS(SVG_NS, "defs");
+  const mask = doc.createElementNS(SVG_NS, "mask");
+  mask.setAttribute("id", MASK_ID);
+  mask.setAttribute("maskUnits", "userSpaceOnUse");
+  mask.setAttribute("x", String(WORDMARK.x));
+  mask.setAttribute("y", String(WORDMARK.y));
+  mask.setAttribute("width", String(WORDMARK.w));
+  mask.setAttribute("height", String(WORDMARK.h));
+  mask.appendChild(rect(doc, WORDMARK.x, WORDMARK.y, WORDMARK.w, WORDMARK.h, "#fff"));
+  mask.appendChild(path(doc, OUTLINE, "#000"));
+  for (const d of COUNTERS) mask.appendChild(path(doc, d, "#000"));
+  mask.appendChild(polygon(doc, A_COUNTER, "#000"));
+  for (const d of REG_MARK) mask.appendChild(path(doc, d, "#000"));
+  defs.appendChild(mask);
+  svg.appendChild(defs);
+
+  // NVIDIA wordmark, black, through the mask.
+  const wordmark = rect(doc, WORDMARK.x, WORDMARK.y, WORDMARK.w, WORDMARK.h, "#000");
+  wordmark.setAttribute("mask", `url(#${MASK_ID})`);
+  svg.appendChild(wordmark);
+  // The eye, black, straight on the button.
   for (const d of EYE) svg.appendChild(path(doc, d, "#000"));
-  for (const d of COUNTERS) svg.appendChild(path(doc, d, LIME));
-  const tri = doc.createElementNS(SVG_NS, "polygon");
-  tri.setAttribute("points", A_COUNTER);
-  tri.setAttribute("fill", LIME);
-  svg.appendChild(tri);
+  // Full-height charcoal panel with GEFORCE NOW in white.
+  svg.appendChild(polygon(doc, PANEL_POINTS, CHARCOAL));
   for (const d of GEFORCE_NOW) svg.appendChild(path(doc, d, "#fff"));
   return svg;
 }
