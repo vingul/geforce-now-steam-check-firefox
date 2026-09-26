@@ -2,6 +2,7 @@ import type { BadgeState } from "../feed/resolve-state";
 import { BADGE_CSS } from "./badge.css";
 import { resolveLaunchLinks } from "./gfn-link";
 import { renderGfnLockupSvg } from "./gfn-lockup";
+import { t } from "../shared/i18n";
 
 const STYLE_ID = "gfn-check-style";
 const SVG_NS = "http://www.w3.org/2000/svg";
@@ -62,19 +63,18 @@ function modifier(state: BadgeState): "ok" | "no" | "unknown" {
 // simply that the network was down, and the older copy ("click the toolbar icon to
 // enable checks") told those users to do something that would not have helped.
 function bannerLabel(state: BadgeState): string {
-  if (state.kind === "supported") return "Playable on GeForce NOW";
-  if (state.kind === "not-supported") return "Not on GeForce NOW";
-  if (state.kind === "needs-permission")
-    return "GeForce NOW: couldn't check — the toolbar icon may help";
-  return "GeForce NOW: couldn't check";
+  if (state.kind === "supported") return t("bannerSupported");
+  if (state.kind === "not-supported") return t("bannerNotSupported");
+  if (state.kind === "needs-permission") return t("bannerNeedsPermission");
+  return t("bannerUnknown");
 }
 
 function pillLabel(state: BadgeState): string {
-  if (state.kind === "supported") return state.rtx ? "GeForce NOW · RTX" : "GeForce NOW";
-  if (state.kind === "not-supported") return "Not available";
+  if (state.kind === "supported") return state.rtx ? t("pillSupportedRtx") : t("pillSupported");
+  if (state.kind === "not-supported") return t("pillNotSupported");
   // No room in a pill to word a suggestion honestly, and a wishlist row is not
   // where that conversation belongs — the popup has space to explain.
-  return "Couldn't check";
+  return t("pillUnknown");
 }
 
 /** createElement + class + optional text — the shape every piece of badge
@@ -163,8 +163,8 @@ export function renderLaunchButtons(doc: Document, state: BadgeState): HTMLEleme
       doc,
       "gfn-check-launch-app",
       appUrl,
-      "Play on",
-      "Launch in the GeForce NOW app",
+      t("launchPlayOn"),
+      t("launchPlayOnTitle"),
       false,
     );
     app.appendChild(gfnLockup(doc));
@@ -176,8 +176,8 @@ export function renderLaunchButtons(doc: Document, state: BadgeState): HTMLEleme
         doc,
         "gfn-check-launch-web",
         webUrl,
-        "Play in Web",
-        "Open in the GeForce NOW web app (new tab)",
+        t("launchPlayWeb"),
+        t("launchPlayWebTitle"),
         true,
       ),
     );

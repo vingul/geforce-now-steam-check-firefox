@@ -1,5 +1,8 @@
 import { hasFeedPermission, hasStandingSteamAccess, requestFeedPermission } from "../shared/permission";
 import { log } from "../shared/log";
+import { localizeDocument, t } from "../shared/i18n";
+
+localizeDocument(document);
 
 const dot = document.getElementById("dot")!;
 const statusText = document.getElementById("status-text")!;
@@ -14,9 +17,7 @@ const enableBtn = document.getElementById("enable") as HTMLButtonElement;
  *  marker for something that was never required. */
 function render(steam: boolean, feed: boolean): void {
   dot.className = `dot ${steam ? "dot--on" : "dot--off"}`;
-  statusText.textContent = steam
-    ? "Ready — open a Steam game page to see GeForce NOW badges."
-    : "Set to run only when you click the toolbar icon. Badges still work; you'll just click the icon on each page. The popup can switch this to automatic.";
+  statusText.textContent = steam ? t("onboardingReady") : t("onboardingClickToRun");
   optional.hidden = feed;
   enableBtn.hidden = feed;
 }

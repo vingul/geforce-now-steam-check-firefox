@@ -1,0 +1,181 @@
+{
+  "extName": {
+    "message": "Verificação do GeForce NOW para Steam"
+  },
+  "extDescription": {
+    "message": "Mostra se os jogos do Steam podem ser jogados no NVIDIA GeForce NOW."
+  },
+  "bannerSupported": {
+    "message": "Jogável no GeForce NOW"
+  },
+  "bannerNotSupported": {
+    "message": "Não está no GeForce NOW"
+  },
+  "bannerUnknown": {
+    "message": "GeForce NOW: não foi possível verificar"
+  },
+  "bannerNeedsPermission": {
+    "message": "GeForce NOW: não foi possível verificar — o ícone da barra pode ajudar"
+  },
+  "pillSupported": {
+    "message": "GeForce NOW"
+  },
+  "pillSupportedRtx": {
+    "message": "GeForce NOW · RTX"
+  },
+  "pillNotSupported": {
+    "message": "Indisponível"
+  },
+  "pillUnknown": {
+    "message": "Não verificado"
+  },
+  "launchPlayOn": {
+    "message": "Jogar no"
+  },
+  "launchPlayOnTitle": {
+    "message": "Abrir no aplicativo GeForce NOW"
+  },
+  "launchPlayWeb": {
+    "message": "Jogar no navegador"
+  },
+  "launchPlayWebTitle": {
+    "message": "Abrir na versão web do GeForce NOW (nova aba)"
+  },
+  "popupChecking": {
+    "message": "Verificando…"
+  },
+  "popupCheckingPermission": {
+    "message": "Verificando permissão…"
+  },
+  "popupStatusEnabled": {
+    "message": "Ativado"
+  },
+  "popupStatusClickToRun": {
+    "message": "Executa ao clicar"
+  },
+  "popupExplainClickToRun": {
+    "message": "Os selos aparecem só depois de você clicar neste ícone — por isso a página atrás desta janela já tem um."
+  },
+  "popupExplainDirect": {
+    "message": "Os selos aparecem nas páginas da loja Steam, na lista de desejos e na lista de jogos do perfil. O catálogo é lido diretamente da NVIDIA."
+  },
+  "popupExplainOptional": {
+    "message": "Os selos aparecem nas páginas da loja Steam, na lista de desejos e na lista de jogos do perfil. Opcionalmente, permita o acesso direto ao catálogo da NVIDIA: hoje não é necessário, mas as verificações continuarão funcionando se a NVIDIA mudar como o catálogo pode ser lido."
+  },
+  "popupAllowSteam": {
+    "message": "Sempre executar nas páginas do Steam"
+  },
+  "popupAllowFeed": {
+    "message": "Permitir acesso direto ao catálogo"
+  },
+  "popupCheckingCatalog": {
+    "message": "Verificando catálogo…"
+  },
+  "popupRefresh": {
+    "message": "Atualizar catálogo"
+  },
+  "popupRefreshing": {
+    "message": "Atualizando…"
+  },
+  "popupFetching": {
+    "message": "Baixando o catálogo do GeForce NOW…"
+  },
+  "popupStillClickToRun": {
+    "message": "Ainda só ao clicar. Você também pode permitir no gerenciador de extensões, nas permissões desta extensão."
+  },
+  "popupSteamGranted": {
+    "message": "Pronto: os selos agora aparecem sozinhos. Recarregue as páginas do Steam que já estiverem abertas."
+  },
+  "popupNoBackground": {
+    "message": "Não foi possível contatar o serviço em segundo plano da extensão."
+  },
+  "popupNoCatalog": {
+    "message": "Catálogo ainda não carregado."
+  },
+  "popupCatalogLine": {
+    "message": "Catálogo: $COUNT$ jogos do Steam · atualizado $AGE$",
+    "placeholders": {
+      "age": {
+        "content": "$2"
+      },
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "popupRefreshFailedNoCatalog": {
+    "message": "Falha ao atualizar: ainda não há catálogo em cache."
+  },
+  "popupRefreshFailedSuffix": {
+    "message": " · falha ao atualizar"
+  },
+  "onboardingTitle": {
+    "message": "Bem-vindo — Verificação do GeForce NOW para Steam"
+  },
+  "onboardingSub": {
+    "message": "Tudo pronto: veja o que a extensão faz."
+  },
+  "onboardingIntro": {
+    "message": "Abra qualquer página de jogo do Steam, sua lista de desejos ou a lista de jogos do seu perfil e veja se o jogo é transmitido no NVIDIA GeForce NOW: um marcador verde quando é, um neutro quando não. A disponibilidade vem do catálogo público da NVIDIA, armazenado em cache localmente e atualizado a cada 12 horas."
+  },
+  "onboardingReady": {
+    "message": "Pronto: abra uma página de jogo do Steam para ver os selos do GeForce NOW."
+  },
+  "onboardingClickToRun": {
+    "message": "Configurado para executar só ao clicar no ícone da barra. Os selos continuam funcionando; basta clicar no ícone em cada página. Na janela da extensão dá para mudar para automático."
+  },
+  "onboardingOptional": {
+    "message": "Opcional: você pode permitir que a extensão leia o catálogo da NVIDIA diretamente. Hoje não é necessário (as verificações funcionam sem isso), mas assim elas continuam funcionando se a NVIDIA mudar como o catálogo pode ser lido."
+  },
+  "ageJustNow": {
+    "message": "agora mesmo"
+  },
+  "ageMinutes": {
+    "message": "há $N$ min",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageHours": {
+    "message": "há $N$ h",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysOne": {
+    "message": "há $N$ dia",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysFew": {
+    "message": "há $N$ dias",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysMany": {
+    "message": "há $N$ dias",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysOther": {
+    "message": "há $N$ dias",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  }
+}

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Welcome — GeForce NOW check for Steam</title>
+    <title data-i18n="onboardingTitle">Welcome — GeForce NOW check for Steam</title>
     <style>
       :root { color-scheme: dark; }
       body {
@@ -40,26 +40,26 @@
   </head>
   <body>
     <main>
-      <h1>GeForce NOW check for Steam</h1>
-      <p class="sub">You're all set — here's what it does.</p>
-      <p>
+      <h1 data-i18n="extName">GeForce NOW check for Steam</h1>
+      <p class="sub" data-i18n="onboardingSub">You're all set — here's what it does.</p>
+      <p data-i18n="onboardingIntro">
         Open any Steam game page, your wishlist or your profile's games list and you'll see whether the game
-        streams on <strong>NVIDIA GeForce NOW</strong>: a green marker when it
-        does, a neutral one when it doesn't. Availability comes from NVIDIA's
-        public catalog, cached locally and refreshed every 12 hours.
+        streams on NVIDIA GeForce NOW: a green marker when it does, a neutral one when it
+        doesn't. Availability comes from NVIDIA's public catalog, cached locally and
+        refreshed every 12 hours.
       </p>
       <div class="status">
         <span id="dot" class="dot dot--off"></span>
-        <span id="status-text">Checking…</span>
+        <span id="status-text" data-i18n="popupChecking">Checking…</span>
       </div>
       <!-- Hidden until render() decides, like popup.html: a user who already holds
            the grant would otherwise see the offer flash before it is removed. -->
-      <p class="sub" id="optional" hidden>
+      <p class="sub" id="optional" hidden data-i18n="onboardingOptional">
         Optional: you can allow the add-on to read NVIDIA's catalog directly. It
         isn't needed today — checks work without it — but it keeps them working if
         NVIDIA ever changes how the catalog may be read.
       </p>
-      <button id="enable" hidden>Allow direct catalog access</button>
+      <button id="enable" hidden data-i18n="popupAllowFeed">Allow direct catalog access</button>
       <script src="onboarding.js"></script>
     </main>
   </body>

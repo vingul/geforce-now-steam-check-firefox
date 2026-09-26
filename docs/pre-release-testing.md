@@ -407,6 +407,18 @@ it any more.
 
 ---
 
+## §E — Localization
+
+Strings follow Firefox's **interface** language (`about:preferences` → Language), not
+Steam's store language. Set it to Ukrainian, restart, and:
+
+- [ ] ✅ A store page banner reads *Доступно на GeForce NOW* / *Немає на GeForce NOW*.
+- [ ] ✅ On an owned game the buttons read *Грати на* + logo and *Грати у браузері*.
+- [ ] ✅ The popup and `about:addons` entry are in Ukrainian, including the catalog line
+      (*Каталог: … ігор Steam · оновлено 3 год тому*) and the refresh button.
+- [ ] ✅ Switch to a language that is not shipped (e.g. Dutch) — everything falls back to
+      English, nothing is blank.
+
 ## Sign-off
 
 Ship only with all of §A green — those are the reliability claims that justify unchecking

@@ -21,6 +21,10 @@ GeForce NOW catalog and draws a small badge:
 
 ![A Steam wishlist showing a green "GeForce NOW · RTX" pill on a supported game and a "Not available" marker on an unsupported one](docs/screenshots/wishlist-pill.png)
 
+Badges, buttons, the popup and the welcome page follow Firefox's interface language:
+English, Ukrainian, German, French, Spanish, Italian, Polish, Brazilian Portuguese,
+Russian, Japanese and Simplified Chinese ship in `src/_locales/`.
+
 ## Install
 
 - **Firefox Add-ons (AMO)** _(recommended)_:

@@ -1,0 +1,181 @@
+{
+  "extName": {
+    "message": "Vérification GeForce NOW pour Steam"
+  },
+  "extDescription": {
+    "message": "Indique si les jeux Steam sont jouables sur NVIDIA GeForce NOW."
+  },
+  "bannerSupported": {
+    "message": "Jouable sur GeForce NOW"
+  },
+  "bannerNotSupported": {
+    "message": "Absent de GeForce NOW"
+  },
+  "bannerUnknown": {
+    "message": "GeForce NOW : vérification impossible"
+  },
+  "bannerNeedsPermission": {
+    "message": "GeForce NOW : vérification impossible — l'icône de la barre d'outils peut aider"
+  },
+  "pillSupported": {
+    "message": "GeForce NOW"
+  },
+  "pillSupportedRtx": {
+    "message": "GeForce NOW · RTX"
+  },
+  "pillNotSupported": {
+    "message": "Indisponible"
+  },
+  "pillUnknown": {
+    "message": "Non vérifié"
+  },
+  "launchPlayOn": {
+    "message": "Jouer sur"
+  },
+  "launchPlayOnTitle": {
+    "message": "Lancer dans l'application GeForce NOW"
+  },
+  "launchPlayWeb": {
+    "message": "Jouer dans le navigateur"
+  },
+  "launchPlayWebTitle": {
+    "message": "Ouvrir dans l'application web GeForce NOW (nouvel onglet)"
+  },
+  "popupChecking": {
+    "message": "Vérification…"
+  },
+  "popupCheckingPermission": {
+    "message": "Vérification de l'autorisation…"
+  },
+  "popupStatusEnabled": {
+    "message": "Activé"
+  },
+  "popupStatusClickToRun": {
+    "message": "S'exécute au clic"
+  },
+  "popupExplainClickToRun": {
+    "message": "Les badges n'apparaissent qu'après un clic sur cette icône — c'est pourquoi la page derrière ce popup en a un maintenant."
+  },
+  "popupExplainDirect": {
+    "message": "Les badges apparaissent sur les pages du magasin Steam, la liste de souhaits et la liste des jeux du profil. Le catalogue est lu directement depuis NVIDIA."
+  },
+  "popupExplainOptional": {
+    "message": "Les badges apparaissent sur les pages du magasin Steam, la liste de souhaits et la liste des jeux du profil. En option, autorisez l'accès direct au catalogue NVIDIA — inutile aujourd'hui, mais les vérifications continueront de fonctionner si NVIDIA change les règles d'accès au catalogue."
+  },
+  "popupAllowSteam": {
+    "message": "Toujours exécuter sur les pages Steam"
+  },
+  "popupAllowFeed": {
+    "message": "Autoriser l'accès direct au catalogue"
+  },
+  "popupCheckingCatalog": {
+    "message": "Vérification du catalogue…"
+  },
+  "popupRefresh": {
+    "message": "Actualiser le catalogue"
+  },
+  "popupRefreshing": {
+    "message": "Actualisation…"
+  },
+  "popupFetching": {
+    "message": "Récupération du catalogue GeForce NOW…"
+  },
+  "popupStillClickToRun": {
+    "message": "Toujours au clic. Vous pouvez aussi l'autoriser depuis le gestionnaire de modules, dans les autorisations de ce module."
+  },
+  "popupSteamGranted": {
+    "message": "Terminé — les badges apparaissent désormais d'eux-mêmes. Rechargez les pages Steam déjà ouvertes."
+  },
+  "popupNoBackground": {
+    "message": "Impossible de joindre le service d'arrière-plan de l'extension."
+  },
+  "popupNoCatalog": {
+    "message": "Catalogue pas encore chargé."
+  },
+  "popupCatalogLine": {
+    "message": "Catalogue : $COUNT$ jeux Steam · mis à jour $AGE$",
+    "placeholders": {
+      "age": {
+        "content": "$2"
+      },
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "popupRefreshFailedNoCatalog": {
+    "message": "Échec de l'actualisation — aucun catalogue en cache pour l'instant."
+  },
+  "popupRefreshFailedSuffix": {
+    "message": " · échec de l'actualisation"
+  },
+  "onboardingTitle": {
+    "message": "Bienvenue — Vérification GeForce NOW pour Steam"
+  },
+  "onboardingSub": {
+    "message": "Tout est prêt — voici ce que fait l'extension."
+  },
+  "onboardingIntro": {
+    "message": "Ouvrez n'importe quelle page de jeu Steam, votre liste de souhaits ou la liste des jeux de votre profil : vous verrez si le jeu est diffusé sur NVIDIA GeForce NOW, avec un marqueur vert si oui et neutre sinon. La disponibilité provient du catalogue public de NVIDIA, mis en cache localement et actualisé toutes les 12 heures."
+  },
+  "onboardingReady": {
+    "message": "Prêt — ouvrez une page de jeu Steam pour voir les badges GeForce NOW."
+  },
+  "onboardingClickToRun": {
+    "message": "Configuré pour ne s'exécuter qu'au clic sur l'icône de la barre d'outils. Les badges fonctionnent toujours ; il suffit de cliquer sur l'icône sur chaque page. Le popup permet de passer en automatique."
+  },
+  "onboardingOptional": {
+    "message": "Facultatif : vous pouvez autoriser le module à lire directement le catalogue NVIDIA. Ce n'est pas nécessaire aujourd'hui — les vérifications fonctionnent sans —, mais elles continueront de fonctionner si NVIDIA change les règles d'accès au catalogue."
+  },
+  "ageJustNow": {
+    "message": "à l'instant"
+  },
+  "ageMinutes": {
+    "message": "il y a $N$ min",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageHours": {
+    "message": "il y a $N$ h",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysOne": {
+    "message": "il y a $N$ jour",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysFew": {
+    "message": "il y a $N$ jours",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysMany": {
+    "message": "il y a $N$ jours",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysOther": {
+    "message": "il y a $N$ jours",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  }
+}

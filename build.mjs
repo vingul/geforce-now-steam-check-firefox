@@ -22,6 +22,8 @@ await esbuild.build({
 });
 
 await cp("src/manifest.json", `${outdir}/manifest.json`);
+// Translations: one messages.json per locale, picked by Firefox's UI language.
+await cp("src/_locales", `${outdir}/_locales`, { recursive: true });
 // Assets only — icons/README.md documents how the PNGs are rasterized from the SVG
 // and has no business inside the packaged extension.
 await cp("icons", `${outdir}/icons`, {

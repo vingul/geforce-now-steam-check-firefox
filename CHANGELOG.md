@@ -23,6 +23,11 @@ All notable changes to this project are documented here. The format is based on
   thumbnail in a compact size. The list derives rows exactly as the wishlist does, so
   the two share one implementation (`content/list-page.ts`). The games-list URLs join
   the content-script matches and the requestable origins.
+- **Localized.** Every label — store banner, wishlist and games-list pills, the launch
+  buttons, the popup, the welcome page, the manifest name and description — now comes
+  from `_locales/` and follows Firefox's interface language. Shipped: English (default),
+  Ukrainian, German, French, Spanish, Italian, Polish, Brazilian Portuguese, Russian,
+  Japanese, Simplified Chinese. Relative ages use proper plural forms per language.
 - **One-command local install.** `scripts/install-local.sh` / `scripts\install-local.cmd`
   build the checkout and either launch Firefox with it loaded (`run`), package an
   unsigned `.xpi` (`xpi`), or sign it through AMO (`sign`), with an `ADDON_ID` override

@@ -1,0 +1,181 @@
+{
+  "extName": {
+    "message": "Steam 用 GeForce NOW チェック"
+  },
+  "extDescription": {
+    "message": "Steam のゲームが NVIDIA GeForce NOW でプレイできるかを表示します。"
+  },
+  "bannerSupported": {
+    "message": "GeForce NOW でプレイ可能"
+  },
+  "bannerNotSupported": {
+    "message": "GeForce NOW 非対応"
+  },
+  "bannerUnknown": {
+    "message": "GeForce NOW: 確認できませんでした"
+  },
+  "bannerNeedsPermission": {
+    "message": "GeForce NOW: 確認できませんでした — ツールバーのアイコンが役立つかもしれません"
+  },
+  "pillSupported": {
+    "message": "GeForce NOW"
+  },
+  "pillSupportedRtx": {
+    "message": "GeForce NOW · RTX"
+  },
+  "pillNotSupported": {
+    "message": "非対応"
+  },
+  "pillUnknown": {
+    "message": "未確認"
+  },
+  "launchPlayOn": {
+    "message": "プレイ:"
+  },
+  "launchPlayOnTitle": {
+    "message": "GeForce NOW アプリで起動"
+  },
+  "launchPlayWeb": {
+    "message": "ブラウザーでプレイ"
+  },
+  "launchPlayWebTitle": {
+    "message": "GeForce NOW ウェブ版で開く（新しいタブ）"
+  },
+  "popupChecking": {
+    "message": "確認中…"
+  },
+  "popupCheckingPermission": {
+    "message": "権限を確認中…"
+  },
+  "popupStatusEnabled": {
+    "message": "有効"
+  },
+  "popupStatusClickToRun": {
+    "message": "クリック時に実行"
+  },
+  "popupExplainClickToRun": {
+    "message": "バッジはこのアイコンをクリックした後にだけ表示されます。そのため、このポップアップの背後のページには今バッジが表示されています。"
+  },
+  "popupExplainDirect": {
+    "message": "バッジは Steam ストアページ、ウィッシュリスト、プロフィールのゲーム一覧に表示されます。カタログは NVIDIA から直接読み込まれます。"
+  },
+  "popupExplainOptional": {
+    "message": "バッジは Steam ストアページ、ウィッシュリスト、プロフィールのゲーム一覧に表示されます。任意で NVIDIA のカタログへの直接アクセスを許可できます。現在は不要ですが、NVIDIA がカタログの読み取り方法を変更してもチェックが動作し続けます。"
+  },
+  "popupAllowSteam": {
+    "message": "Steam のページで常に実行"
+  },
+  "popupAllowFeed": {
+    "message": "カタログへの直接アクセスを許可"
+  },
+  "popupCheckingCatalog": {
+    "message": "カタログを確認中…"
+  },
+  "popupRefresh": {
+    "message": "カタログを更新"
+  },
+  "popupRefreshing": {
+    "message": "更新中…"
+  },
+  "popupFetching": {
+    "message": "GeForce NOW カタログを取得中…"
+  },
+  "popupStillClickToRun": {
+    "message": "引き続きクリック時のみ実行されます。アドオンマネージャーのこのアドオンの「権限」からも許可できます。"
+  },
+  "popupSteamGranted": {
+    "message": "完了 — バッジは自動的に表示されるようになりました。すでに開いている Steam のページは再読み込みしてください。"
+  },
+  "popupNoBackground": {
+    "message": "拡張機能のバックグラウンドサービスに接続できませんでした。"
+  },
+  "popupNoCatalog": {
+    "message": "カタログはまだ読み込まれていません。"
+  },
+  "popupCatalogLine": {
+    "message": "カタログ: Steam ゲーム $COUNT$ 本 · 更新 $AGE$",
+    "placeholders": {
+      "age": {
+        "content": "$2"
+      },
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "popupRefreshFailedNoCatalog": {
+    "message": "更新に失敗しました — キャッシュされたカタログはまだありません。"
+  },
+  "popupRefreshFailedSuffix": {
+    "message": " · 更新に失敗"
+  },
+  "onboardingTitle": {
+    "message": "ようこそ — Steam 用 GeForce NOW チェック"
+  },
+  "onboardingSub": {
+    "message": "準備完了です。この拡張機能の機能を説明します。"
+  },
+  "onboardingIntro": {
+    "message": "Steam のゲームページ、ウィッシュリスト、プロフィールのゲーム一覧を開くと、そのゲームが NVIDIA GeForce NOW でストリーミングできるかがわかります。対応していれば緑のマーク、そうでなければ中立のマークが表示されます。対応状況は NVIDIA の公開カタログから取得し、ローカルにキャッシュして 12 時間ごとに更新します。"
+  },
+  "onboardingReady": {
+    "message": "準備完了 — Steam のゲームページを開くと GeForce NOW バッジが表示されます。"
+  },
+  "onboardingClickToRun": {
+    "message": "ツールバーのアイコンをクリックしたときだけ実行する設定になっています。バッジは動作しますが、各ページでアイコンをクリックする必要があります。ポップアップから自動に切り替えられます。"
+  },
+  "onboardingOptional": {
+    "message": "任意: アドオンが NVIDIA のカタログを直接読み取ることを許可できます。現在は不要で、許可しなくてもチェックは動作しますが、NVIDIA がカタログの読み取り方法を変更しても動作し続けます。"
+  },
+  "ageJustNow": {
+    "message": "たった今"
+  },
+  "ageMinutes": {
+    "message": "$N$ 分前",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageHours": {
+    "message": "$N$ 時間前",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysOne": {
+    "message": "$N$ 日前",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysFew": {
+    "message": "$N$ 日前",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysMany": {
+    "message": "$N$ 日前",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysOther": {
+    "message": "$N$ 日前",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  }
+}

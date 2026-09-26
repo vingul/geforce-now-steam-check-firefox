@@ -1,0 +1,181 @@
+{
+  "extName": {
+    "message": "Проверка GeForce NOW для Steam"
+  },
+  "extDescription": {
+    "message": "Показывает, можно ли играть в игры Steam через NVIDIA GeForce NOW."
+  },
+  "bannerSupported": {
+    "message": "Доступно в GeForce NOW"
+  },
+  "bannerNotSupported": {
+    "message": "Нет в GeForce NOW"
+  },
+  "bannerUnknown": {
+    "message": "GeForce NOW: не удалось проверить"
+  },
+  "bannerNeedsPermission": {
+    "message": "GeForce NOW: не удалось проверить — может помочь значок на панели"
+  },
+  "pillSupported": {
+    "message": "GeForce NOW"
+  },
+  "pillSupportedRtx": {
+    "message": "GeForce NOW · RTX"
+  },
+  "pillNotSupported": {
+    "message": "Недоступно"
+  },
+  "pillUnknown": {
+    "message": "Не проверено"
+  },
+  "launchPlayOn": {
+    "message": "Играть в"
+  },
+  "launchPlayOnTitle": {
+    "message": "Запустить в приложении GeForce NOW"
+  },
+  "launchPlayWeb": {
+    "message": "Играть в браузере"
+  },
+  "launchPlayWebTitle": {
+    "message": "Открыть в веб-версии GeForce NOW (новая вкладка)"
+  },
+  "popupChecking": {
+    "message": "Проверка…"
+  },
+  "popupCheckingPermission": {
+    "message": "Проверка разрешения…"
+  },
+  "popupStatusEnabled": {
+    "message": "Включено"
+  },
+  "popupStatusClickToRun": {
+    "message": "Запускается по клику"
+  },
+  "popupExplainClickToRun": {
+    "message": "Метки появляются только после клика по этому значку — поэтому страница за этим окном уже имеет метку."
+  },
+  "popupExplainDirect": {
+    "message": "Метки появляются на страницах игр, в списке желаемого и в списке игр профиля Steam. Каталог читается напрямую с NVIDIA."
+  },
+  "popupExplainOptional": {
+    "message": "Метки появляются на страницах игр, в списке желаемого и в списке игр профиля Steam. При желании разрешите прямой доступ к каталогу NVIDIA — сейчас это не требуется, но проверки продолжат работать, даже если NVIDIA изменит правила доступа к каталогу."
+  },
+  "popupAllowSteam": {
+    "message": "Всегда запускать на страницах Steam"
+  },
+  "popupAllowFeed": {
+    "message": "Разрешить прямой доступ к каталогу"
+  },
+  "popupCheckingCatalog": {
+    "message": "Проверка каталога…"
+  },
+  "popupRefresh": {
+    "message": "Обновить каталог"
+  },
+  "popupRefreshing": {
+    "message": "Обновление…"
+  },
+  "popupFetching": {
+    "message": "Загрузка каталога GeForce NOW…"
+  },
+  "popupStillClickToRun": {
+    "message": "По-прежнему только по клику. Разрешение также можно дать в менеджере дополнений, в разделе «Разрешения» этого дополнения."
+  },
+  "popupSteamGranted": {
+    "message": "Готово — метки теперь появляются сами. Перезагрузите уже открытые страницы Steam."
+  },
+  "popupNoBackground": {
+    "message": "Не удалось связаться с фоновой службой расширения."
+  },
+  "popupNoCatalog": {
+    "message": "Каталог ещё не загружен."
+  },
+  "popupCatalogLine": {
+    "message": "Каталог: $COUNT$ игр Steam · обновлено $AGE$",
+    "placeholders": {
+      "age": {
+        "content": "$2"
+      },
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "popupRefreshFailedNoCatalog": {
+    "message": "Обновление не удалось — каталог ещё не кэширован."
+  },
+  "popupRefreshFailedSuffix": {
+    "message": " · обновление не удалось"
+  },
+  "onboardingTitle": {
+    "message": "Добро пожаловать — Проверка GeForce NOW для Steam"
+  },
+  "onboardingSub": {
+    "message": "Всё готово — вот что делает расширение."
+  },
+  "onboardingIntro": {
+    "message": "Откройте любую страницу игры в Steam, свой список желаемого или список игр профиля — и увидите, транслируется ли игра через NVIDIA GeForce NOW: зелёная метка, если да, нейтральная, если нет. Данные берутся из публичного каталога NVIDIA, кэшируются локально и обновляются каждые 12 часов."
+  },
+  "onboardingReady": {
+    "message": "Готово — откройте страницу игры в Steam, чтобы увидеть метки GeForce NOW."
+  },
+  "onboardingClickToRun": {
+    "message": "Расширение запускается только после клика по значку на панели. Метки работают, просто нажимайте значок на каждой странице. Во всплывающем окне можно переключить на автоматический режим."
+  },
+  "onboardingOptional": {
+    "message": "Необязательно: можно разрешить расширению читать каталог NVIDIA напрямую. Сейчас это не требуется — проверки работают и без этого, — но так они продолжат работать, даже если NVIDIA изменит правила доступа к каталогу."
+  },
+  "ageJustNow": {
+    "message": "только что"
+  },
+  "ageMinutes": {
+    "message": "$N$ мин назад",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageHours": {
+    "message": "$N$ ч назад",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysOne": {
+    "message": "$N$ день назад",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysFew": {
+    "message": "$N$ дня назад",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysMany": {
+    "message": "$N$ дней назад",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysOther": {
+    "message": "$N$ дня назад",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  }
+}

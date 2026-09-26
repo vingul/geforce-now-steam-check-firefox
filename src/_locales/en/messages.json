@@ -1,0 +1,228 @@
+{
+  "extName": {
+    "message": "GeForce NOW check for Steam",
+    "description": "Add-on name (manifest, popup and onboarding heading)."
+  },
+  "extDescription": {
+    "message": "Shows whether Steam games are playable on NVIDIA GeForce NOW.",
+    "description": "Add-on description (manifest)."
+  },
+  "bannerSupported": {
+    "message": "Playable on GeForce NOW",
+    "description": "Store page banner: the game streams on GeForce NOW."
+  },
+  "bannerNotSupported": {
+    "message": "Not on GeForce NOW",
+    "description": "Store page banner: the game is not in the GeForce NOW catalog."
+  },
+  "bannerUnknown": {
+    "message": "GeForce NOW: couldn't check",
+    "description": "Store page banner: the catalog could not be fetched."
+  },
+  "bannerNeedsPermission": {
+    "message": "GeForce NOW: couldn't check — the toolbar icon may help",
+    "description": "Store page banner: fetch failed and the optional catalog grant is missing; suggests the toolbar icon."
+  },
+  "pillSupported": {
+    "message": "GeForce NOW",
+    "description": "Wishlist/games-list pill: supported."
+  },
+  "pillSupportedRtx": {
+    "message": "GeForce NOW · RTX",
+    "description": "Wishlist/games-list pill: supported with RTX."
+  },
+  "pillNotSupported": {
+    "message": "Not available",
+    "description": "Wishlist/games-list pill: not in the catalog."
+  },
+  "pillUnknown": {
+    "message": "Couldn't check",
+    "description": "Wishlist/games-list pill: could not check."
+  },
+  "launchPlayOn": {
+    "message": "Play on",
+    "description": "Launch button label, followed by the GeForce NOW logo panel."
+  },
+  "launchPlayOnTitle": {
+    "message": "Launch in the GeForce NOW app",
+    "description": "Tooltip of the app launch button."
+  },
+  "launchPlayWeb": {
+    "message": "Play in Web",
+    "description": "Launch button label: open the web app."
+  },
+  "launchPlayWebTitle": {
+    "message": "Open in the GeForce NOW web app (new tab)",
+    "description": "Tooltip of the web launch button."
+  },
+  "popupChecking": {
+    "message": "Checking…",
+    "description": "Popup placeholder while state loads."
+  },
+  "popupCheckingPermission": {
+    "message": "Checking permission…",
+    "description": "Popup status placeholder while permissions load."
+  },
+  "popupStatusEnabled": {
+    "message": "Enabled",
+    "description": "Popup status: badges appear automatically."
+  },
+  "popupStatusClickToRun": {
+    "message": "Runs when clicked",
+    "description": "Popup status: Firefox runs the add-on only when the toolbar icon is clicked."
+  },
+  "popupExplainClickToRun": {
+    "message": "Badges appear only after you click this icon — which is why the page behind this popup has one now.",
+    "description": "Popup explanation in click-to-run mode."
+  },
+  "popupExplainDirect": {
+    "message": "Badges appear on Steam store, wishlist and profile games pages. The catalog is read directly from NVIDIA.",
+    "description": "Popup explanation with the optional catalog grant held."
+  },
+  "popupExplainOptional": {
+    "message": "Badges appear on Steam store, wishlist and profile games pages. Optionally, allow direct access to NVIDIA's catalog — not required today, but it keeps checks working if NVIDIA changes how the catalog may be read.",
+    "description": "Popup explanation without the optional catalog grant."
+  },
+  "popupAllowSteam": {
+    "message": "Always run on Steam pages",
+    "description": "Popup button: grant standing access to Steam pages."
+  },
+  "popupAllowFeed": {
+    "message": "Allow direct catalog access",
+    "description": "Popup/onboarding button: grant direct catalog access."
+  },
+  "popupCheckingCatalog": {
+    "message": "Checking catalog…",
+    "description": "Popup catalog line placeholder."
+  },
+  "popupRefresh": {
+    "message": "Refresh catalog",
+    "description": "Popup button: refresh the catalog."
+  },
+  "popupRefreshing": {
+    "message": "Refreshing…",
+    "description": "Popup button label while refreshing."
+  },
+  "popupFetching": {
+    "message": "Fetching the GeForce NOW catalog…",
+    "description": "Popup catalog line while a refresh runs."
+  },
+  "popupStillClickToRun": {
+    "message": "Still click-to-run. You can also allow it from the Add-ons Manager, under this add-on's Permissions.",
+    "description": "Popup: the Steam access request was declined."
+  },
+  "popupSteamGranted": {
+    "message": "Done — badges now appear on their own. Reload any Steam pages you already have open.",
+    "description": "Popup: the Steam access request succeeded."
+  },
+  "popupNoBackground": {
+    "message": "Couldn't reach the extension's background service.",
+    "description": "Popup: no reply from the background service."
+  },
+  "popupNoCatalog": {
+    "message": "Catalog not loaded yet.",
+    "description": "Popup: nothing cached yet."
+  },
+  "popupCatalogLine": {
+    "message": "Catalog: $COUNT$ Steam games · updated $AGE$",
+    "description": "Popup catalog line. $COUNT$ = number of indexed Steam games, $AGE$ = relative time such as '3 h ago'.",
+    "placeholders": {
+      "age": {
+        "content": "$2"
+      },
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "popupRefreshFailedNoCatalog": {
+    "message": "Refresh failed — no catalog cached yet.",
+    "description": "Popup: refresh failed and nothing was cached before."
+  },
+  "popupRefreshFailedSuffix": {
+    "message": " · refresh failed",
+    "description": "Appended to the catalog line when a refresh failed but the old catalog remains. Keep the leading separator."
+  },
+  "onboardingTitle": {
+    "message": "Welcome — GeForce NOW check for Steam",
+    "description": "Onboarding page title."
+  },
+  "onboardingSub": {
+    "message": "You're all set — here's what it does.",
+    "description": "Onboarding subtitle."
+  },
+  "onboardingIntro": {
+    "message": "Open any Steam game page, your wishlist or your profile's games list and you'll see whether the game streams on NVIDIA GeForce NOW: a green marker when it does, a neutral one when it doesn't. Availability comes from NVIDIA's public catalog, cached locally and refreshed every 12 hours.",
+    "description": "Onboarding paragraph explaining what the add-on does."
+  },
+  "onboardingReady": {
+    "message": "Ready — open a Steam game page to see GeForce NOW badges.",
+    "description": "Onboarding status: standing Steam access held."
+  },
+  "onboardingClickToRun": {
+    "message": "Set to run only when you click the toolbar icon. Badges still work; you'll just click the icon on each page. The popup can switch this to automatic.",
+    "description": "Onboarding status: click-to-run mode."
+  },
+  "onboardingOptional": {
+    "message": "Optional: you can allow the add-on to read NVIDIA's catalog directly. It isn't needed today — checks work without it — but it keeps them working if NVIDIA ever changes how the catalog may be read.",
+    "description": "Onboarding: the optional catalog grant, explained."
+  },
+  "ageJustNow": {
+    "message": "just now",
+    "description": "Relative age under a minute."
+  },
+  "ageMinutes": {
+    "message": "$N$ min ago",
+    "description": "Relative age in minutes. $N$ = number.",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageHours": {
+    "message": "$N$ h ago",
+    "description": "Relative age in hours. $N$ = number.",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysOne": {
+    "message": "$N$ day ago",
+    "description": "Relative age in days, plural category 'one'. $N$ = number.",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysFew": {
+    "message": "$N$ days ago",
+    "description": "Relative age in days, plural category 'few'. $N$ = number.",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysMany": {
+    "message": "$N$ days ago",
+    "description": "Relative age in days, plural category 'many'. $N$ = number.",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysOther": {
+    "message": "$N$ days ago",
+    "description": "Relative age in days, plural category 'other'. $N$ = number.",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  }
+}

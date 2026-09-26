@@ -1,0 +1,181 @@
+{
+  "extName": {
+    "message": "Steam 的 GeForce NOW 检查"
+  },
+  "extDescription": {
+    "message": "显示 Steam 游戏是否可在 NVIDIA GeForce NOW 上游玩。"
+  },
+  "bannerSupported": {
+    "message": "可在 GeForce NOW 上游玩"
+  },
+  "bannerNotSupported": {
+    "message": "GeForce NOW 不支持"
+  },
+  "bannerUnknown": {
+    "message": "GeForce NOW：无法检查"
+  },
+  "bannerNeedsPermission": {
+    "message": "GeForce NOW：无法检查 — 工具栏图标可能有帮助"
+  },
+  "pillSupported": {
+    "message": "GeForce NOW"
+  },
+  "pillSupportedRtx": {
+    "message": "GeForce NOW · RTX"
+  },
+  "pillNotSupported": {
+    "message": "不支持"
+  },
+  "pillUnknown": {
+    "message": "未检查"
+  },
+  "launchPlayOn": {
+    "message": "在此游玩："
+  },
+  "launchPlayOnTitle": {
+    "message": "在 GeForce NOW 应用中启动"
+  },
+  "launchPlayWeb": {
+    "message": "在浏览器中游玩"
+  },
+  "launchPlayWebTitle": {
+    "message": "在 GeForce NOW 网页版中打开（新标签页）"
+  },
+  "popupChecking": {
+    "message": "正在检查…"
+  },
+  "popupCheckingPermission": {
+    "message": "正在检查权限…"
+  },
+  "popupStatusEnabled": {
+    "message": "已启用"
+  },
+  "popupStatusClickToRun": {
+    "message": "点击时运行"
+  },
+  "popupExplainClickToRun": {
+    "message": "只有点击此图标后徽章才会显示——这就是此弹窗背后的页面现在有徽章的原因。"
+  },
+  "popupExplainDirect": {
+    "message": "徽章会显示在 Steam 商店页面、愿望单和个人资料的游戏列表中。目录直接从 NVIDIA 读取。"
+  },
+  "popupExplainOptional": {
+    "message": "徽章会显示在 Steam 商店页面、愿望单和个人资料的游戏列表中。可选：允许直接访问 NVIDIA 目录——目前并非必需，但如果 NVIDIA 更改目录的读取方式，检查仍可继续工作。"
+  },
+  "popupAllowSteam": {
+    "message": "始终在 Steam 页面上运行"
+  },
+  "popupAllowFeed": {
+    "message": "允许直接访问目录"
+  },
+  "popupCheckingCatalog": {
+    "message": "正在检查目录…"
+  },
+  "popupRefresh": {
+    "message": "刷新目录"
+  },
+  "popupRefreshing": {
+    "message": "正在刷新…"
+  },
+  "popupFetching": {
+    "message": "正在获取 GeForce NOW 目录…"
+  },
+  "popupStillClickToRun": {
+    "message": "仍为点击时运行。你也可以在附加组件管理器中此附加组件的“权限”里允许。"
+  },
+  "popupSteamGranted": {
+    "message": "完成——徽章现在会自动显示。请重新加载已打开的 Steam 页面。"
+  },
+  "popupNoBackground": {
+    "message": "无法连接到扩展的后台服务。"
+  },
+  "popupNoCatalog": {
+    "message": "目录尚未加载。"
+  },
+  "popupCatalogLine": {
+    "message": "目录：$COUNT$ 款 Steam 游戏 · 更新于$AGE$",
+    "placeholders": {
+      "age": {
+        "content": "$2"
+      },
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "popupRefreshFailedNoCatalog": {
+    "message": "刷新失败——尚无缓存的目录。"
+  },
+  "popupRefreshFailedSuffix": {
+    "message": " · 刷新失败"
+  },
+  "onboardingTitle": {
+    "message": "欢迎 — Steam 的 GeForce NOW 检查"
+  },
+  "onboardingSub": {
+    "message": "一切就绪——这是它的功能。"
+  },
+  "onboardingIntro": {
+    "message": "打开任意 Steam 游戏页面、你的愿望单或个人资料的游戏列表，就能看到该游戏是否可在 NVIDIA GeForce NOW 上串流：支持时显示绿色标记，不支持时显示中性标记。可用性来自 NVIDIA 的公开目录，在本地缓存并每 12 小时刷新一次。"
+  },
+  "onboardingReady": {
+    "message": "就绪——打开 Steam 游戏页面即可看到 GeForce NOW 徽章。"
+  },
+  "onboardingClickToRun": {
+    "message": "已设置为仅在点击工具栏图标时运行。徽章仍然有效，只需在每个页面上点击图标。可在弹窗中切换为自动。"
+  },
+  "onboardingOptional": {
+    "message": "可选：你可以允许附加组件直接读取 NVIDIA 的目录。目前并非必需——没有它检查也能工作——但如果 NVIDIA 更改目录的读取方式，检查仍可继续工作。"
+  },
+  "ageJustNow": {
+    "message": "刚刚"
+  },
+  "ageMinutes": {
+    "message": "$N$ 分钟前",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageHours": {
+    "message": "$N$ 小时前",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysOne": {
+    "message": "$N$ 天前",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysFew": {
+    "message": "$N$ 天前",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysMany": {
+    "message": "$N$ 天前",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysOther": {
+    "message": "$N$ 天前",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  }
+}

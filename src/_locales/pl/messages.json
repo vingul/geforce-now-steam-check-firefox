@@ -1,0 +1,181 @@
+{
+  "extName": {
+    "message": "Sprawdzanie GeForce NOW dla Steam"
+  },
+  "extDescription": {
+    "message": "Pokazuje, czy w gry ze Steam można grać na NVIDIA GeForce NOW."
+  },
+  "bannerSupported": {
+    "message": "Dostępne na GeForce NOW"
+  },
+  "bannerNotSupported": {
+    "message": "Brak na GeForce NOW"
+  },
+  "bannerUnknown": {
+    "message": "GeForce NOW: nie udało się sprawdzić"
+  },
+  "bannerNeedsPermission": {
+    "message": "GeForce NOW: nie udało się sprawdzić — ikona na pasku może pomóc"
+  },
+  "pillSupported": {
+    "message": "GeForce NOW"
+  },
+  "pillSupportedRtx": {
+    "message": "GeForce NOW · RTX"
+  },
+  "pillNotSupported": {
+    "message": "Niedostępne"
+  },
+  "pillUnknown": {
+    "message": "Nie sprawdzono"
+  },
+  "launchPlayOn": {
+    "message": "Graj na"
+  },
+  "launchPlayOnTitle": {
+    "message": "Uruchom w aplikacji GeForce NOW"
+  },
+  "launchPlayWeb": {
+    "message": "Graj w przeglądarce"
+  },
+  "launchPlayWebTitle": {
+    "message": "Otwórz w wersji webowej GeForce NOW (nowa karta)"
+  },
+  "popupChecking": {
+    "message": "Sprawdzanie…"
+  },
+  "popupCheckingPermission": {
+    "message": "Sprawdzanie uprawnienia…"
+  },
+  "popupStatusEnabled": {
+    "message": "Włączone"
+  },
+  "popupStatusClickToRun": {
+    "message": "Uruchamia się po kliknięciu"
+  },
+  "popupExplainClickToRun": {
+    "message": "Oznaczenia pojawiają się dopiero po kliknięciu tej ikony — dlatego strona za tym okienkiem już je ma."
+  },
+  "popupExplainDirect": {
+    "message": "Oznaczenia pojawiają się na stronach sklepu Steam, na liście życzeń i na liście gier profilu. Katalog jest odczytywany bezpośrednio z NVIDIA."
+  },
+  "popupExplainOptional": {
+    "message": "Oznaczenia pojawiają się na stronach sklepu Steam, na liście życzeń i na liście gier profilu. Opcjonalnie zezwól na bezpośredni dostęp do katalogu NVIDIA — dziś nie jest to potrzebne, ale sprawdzanie będzie działać, nawet jeśli NVIDIA zmieni zasady dostępu do katalogu."
+  },
+  "popupAllowSteam": {
+    "message": "Zawsze uruchamiaj na stronach Steam"
+  },
+  "popupAllowFeed": {
+    "message": "Zezwól na bezpośredni dostęp do katalogu"
+  },
+  "popupCheckingCatalog": {
+    "message": "Sprawdzanie katalogu…"
+  },
+  "popupRefresh": {
+    "message": "Odśwież katalog"
+  },
+  "popupRefreshing": {
+    "message": "Odświeżanie…"
+  },
+  "popupFetching": {
+    "message": "Pobieranie katalogu GeForce NOW…"
+  },
+  "popupStillClickToRun": {
+    "message": "Nadal tylko po kliknięciu. Możesz też zezwolić w menedżerze dodatków, w uprawnieniach tego dodatku."
+  },
+  "popupSteamGranted": {
+    "message": "Gotowe — oznaczenia pojawiają się teraz same. Odśwież już otwarte strony Steam."
+  },
+  "popupNoBackground": {
+    "message": "Nie udało się połączyć z usługą w tle rozszerzenia."
+  },
+  "popupNoCatalog": {
+    "message": "Katalog jeszcze nie został wczytany."
+  },
+  "popupCatalogLine": {
+    "message": "Katalog: $COUNT$ gier Steam · zaktualizowano $AGE$",
+    "placeholders": {
+      "age": {
+        "content": "$2"
+      },
+      "count": {
+        "content": "$1"
+      }
+    }
+  },
+  "popupRefreshFailedNoCatalog": {
+    "message": "Odświeżanie nie powiodło się — brak katalogu w pamięci podręcznej."
+  },
+  "popupRefreshFailedSuffix": {
+    "message": " · odświeżanie nie powiodło się"
+  },
+  "onboardingTitle": {
+    "message": "Witaj — Sprawdzanie GeForce NOW dla Steam"
+  },
+  "onboardingSub": {
+    "message": "Wszystko gotowe — oto, co robi rozszerzenie."
+  },
+  "onboardingIntro": {
+    "message": "Otwórz dowolną stronę gry na Steam, swoją listę życzeń lub listę gier profilu, a zobaczysz, czy gra jest strumieniowana na NVIDIA GeForce NOW: zielone oznaczenie, gdy tak, neutralne, gdy nie. Dostępność pochodzi z publicznego katalogu NVIDIA, jest buforowana lokalnie i odświeżana co 12 godzin."
+  },
+  "onboardingReady": {
+    "message": "Gotowe — otwórz stronę gry na Steam, aby zobaczyć oznaczenia GeForce NOW."
+  },
+  "onboardingClickToRun": {
+    "message": "Ustawiono uruchamianie tylko po kliknięciu ikony na pasku. Oznaczenia nadal działają; wystarczy kliknąć ikonę na każdej stronie. W okienku można przełączyć na tryb automatyczny."
+  },
+  "onboardingOptional": {
+    "message": "Opcjonalnie: możesz zezwolić dodatkowi na bezpośredni odczyt katalogu NVIDIA. Dziś nie jest to potrzebne — sprawdzanie działa bez tego — ale będzie działać nadal, jeśli NVIDIA zmieni zasady dostępu do katalogu."
+  },
+  "ageJustNow": {
+    "message": "przed chwilą"
+  },
+  "ageMinutes": {
+    "message": "$N$ min temu",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageHours": {
+    "message": "$N$ godz. temu",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysOne": {
+    "message": "$N$ dzień temu",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysFew": {
+    "message": "$N$ dni temu",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysMany": {
+    "message": "$N$ dni temu",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  },
+  "ageDaysOther": {
+    "message": "$N$ dnia temu",
+    "placeholders": {
+      "n": {
+        "content": "$1"
+      }
+    }
+  }
+}

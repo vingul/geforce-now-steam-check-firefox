@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>GeForce NOW check</title>
+    <title data-i18n="extName">GeForce NOW check</title>
     <style>
       :root { color-scheme: dark; }
       body {
@@ -49,20 +49,20 @@
     </style>
   </head>
   <body>
-    <h1>GeForce NOW check for Steam</h1>
+    <h1 data-i18n="extName">GeForce NOW check for Steam</h1>
     <div class="status">
       <span id="dot" class="dot dot--off"></span>
-      <span id="status-text">Checking permission…</span>
+      <span id="status-text" data-i18n="popupCheckingPermission">Checking permission…</span>
     </div>
-    <p id="explain" class="muted">Checking…</p>
-    <button id="allow-steam" hidden>Always run on Steam pages</button>
-    <button id="enable" hidden>Allow direct catalog access</button>
+    <p id="explain" class="muted" data-i18n="popupChecking">Checking…</p>
+    <button id="allow-steam" hidden data-i18n="popupAllowSteam">Always run on Steam pages</button>
+    <button id="enable" hidden data-i18n="popupAllowFeed">Allow direct catalog access</button>
     <div class="catalog">
-      <p id="catalog-status" class="muted">Checking catalog…</p>
+      <p id="catalog-status" class="muted" data-i18n="popupCheckingCatalog">Checking catalog…</p>
       <!-- Enabled from the start: refreshing is a plain background fetch that
            depends on neither grant, so there is no state in which offering it is
            wrong. It is disabled only while a refresh is actually running. -->
-      <button id="refresh" class="secondary">Refresh catalog</button>
+      <button id="refresh" class="secondary" data-i18n="popupRefresh">Refresh catalog</button>
     </div>
     <script src="popup.js"></script>
   </body>

@@ -9,6 +9,9 @@ import { asStatus, isRefreshResponse } from "../shared/messages";
 import { sendToBackground } from "../shared/send";
 import { formatAge } from "../shared/format-age";
 import { log } from "../shared/log";
+import { localizeDocument, t } from "../shared/i18n";
+
+localizeDocument(document);
 
 const dot = document.getElementById("dot")!;
 const statusText = document.getElementById("status-text")!;
@@ -35,12 +38,12 @@ const allowSteamBtn = document.getElementById("allow-steam") as HTMLButtonElemen
  *  can appear" and was contradicted on screen a second later. */
 function render(steam: boolean, feed: boolean): void {
   dot.className = `dot ${steam ? "dot--on" : "dot--off"}`;
-  statusText.textContent = steam ? "Enabled" : "Runs when clicked";
+  statusText.textContent = steam ? t("popupStatusEnabled") : t("popupStatusClickToRun");
   explain.textContent = !steam
-    ? "Badges appear only after you click this icon — which is why the page behind this popup has one now."
+    ? t("popupExplainClickToRun")
     : feed
-      ? "Badges appear on Steam store, wishlist and profile games pages. The catalog is read directly from NVIDIA."
-      : "Badges appear on Steam store, wishlist and profile games pages. Optionally, allow direct access to NVIDIA's catalog — not required today, but it keeps checks working if NVIDIA changes how the catalog may be read.";
+      ? t("popupExplainDirect")
+      : t("popupExplainOptional");
 
   // One call to action at a time, and click-to-run is the one that changes what
   // the user sees. The optional catalog grant waits its turn.
@@ -54,11 +57,11 @@ function render(steam: boolean, feed: boolean): void {
  *  different bug reports. */
 function renderCatalog(status: StatusResponse | undefined): void {
   if (status === undefined) {
-    catalogStatus.textContent = "Couldn't reach the extension's background service.";
+    catalogStatus.textContent = t("popupNoBackground");
     return;
   }
   if (status === null) {
-    catalogStatus.textContent = "Catalog not loaded yet.";
+    catalogStatus.textContent = t("popupNoCatalog");
     return;
   }
   // "Steam games", not "games": this counts the *indexed* entries, which is the
@@ -66,7 +69,7 @@ function renderCatalog(status: StatusResponse | undefined): void {
   // ~2000 of ~2200. Saying "games" invites a comparison with the raw catalog size
   // in the background log and reads like one of the two is wrong.
   const games = status.count.toLocaleString();
-  catalogStatus.textContent = `Catalog: ${games} Steam games · updated ${formatAge(Date.now() - status.fetchedAt)}`;
+  catalogStatus.textContent = t("popupCatalogLine", games, formatAge(Date.now() - status.fetchedAt));
 }
 
 // Note there is deliberately no "reload the Steam tab" path here. It was tried and
@@ -86,14 +89,13 @@ allowSteamBtn.addEventListener("click", async () => {
     // Either declined, or Firefox refused the request outright. Only now is the
     // manual route worth spelling out — offering it up front, as this popup used
     // to, buried a one-click fix under a paragraph about context menus.
-    explain.textContent =
-      "Still click-to-run. You can also allow it from the Add-ons Manager, under this add-on's Permissions.";
+    explain.textContent = t("popupStillClickToRun");
     return;
   }
   render(true, await hasFeedPermission());
   // Tabs opened before the grant have no content script in them at all, so unlike
   // every other healing path in the extension this one can't reach them.
-  explain.textContent = "Done — badges now appear on their own. Reload any Steam pages you already have open.";
+  explain.textContent = t("popupSteamGranted");
 });
 
 enableBtn.addEventListener("click", async () => {
@@ -104,14 +106,14 @@ enableBtn.addEventListener("click", async () => {
 
 refreshBtn.addEventListener("click", async () => {
   refreshBtn.disabled = true;
-  refreshBtn.textContent = "Refreshing…";
-  catalogStatus.textContent = "Fetching the GeForce NOW catalog…";
+  refreshBtn.textContent = t("popupRefreshing");
+  catalogStatus.textContent = t("popupFetching");
 
   const reply = await sendToBackground({ type: "gfn-refresh" });
   const result = isRefreshResponse(reply) ? reply : null;
   log.info("popup: refresh returned ok =", result?.ok);
 
-  refreshBtn.textContent = "Refresh catalog";
+  refreshBtn.textContent = t("popupRefresh");
   refreshBtn.disabled = false; // Unconditional — a failed refresh is worth retrying.
   // Four distinct outcomes, and collapsing any of them loses a bug report.
   if (result === null) {
@@ -121,12 +123,12 @@ refreshBtn.addEventListener("click", async () => {
     // Open Steam pages pick the new catalog up on their own, via the epoch.
     renderCatalog(result.status);
   } else if (result.status === null) {
-    catalogStatus.textContent = "Refresh failed — no catalog cached yet.";
+    catalogStatus.textContent = t("popupRefreshFailedNoCatalog");
   } else {
     // The fetch failed but the previous catalog is still there and still worth
     // showing; refreshCatalog returns the stale status on purpose.
     renderCatalog(result.status);
-    catalogStatus.textContent += " · refresh failed";
+    catalogStatus.textContent += t("popupRefreshFailedSuffix");
   }
 });
 
