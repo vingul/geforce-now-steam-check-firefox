@@ -22,6 +22,7 @@ rem
 rem Environment:
 rem   ADDON_ID    override the add-on id in the built manifest (the stock id is the
 rem               upstream author's AMO listing; signing a fork needs a new one).
+rem   ADDON_VERSION  override the manifest version (AMO signs each version once).
 rem   FIREFOX     path to firefox.exe for "run" mode (auto-detected when unset).
 rem   SKIP_CHECK  set to 1 to skip typecheck + tests before building.
 
@@ -72,9 +73,10 @@ if not "%SKIP_CHECK%"=="1" (
 echo ==^> building dist\
 call node build.mjs || exit /b 1
 
-if not "%ADDON_ID%"=="" (
-  echo ==^> setting add-on id to %ADDON_ID%
-  call node -e "const fs=require('fs');const p='dist/manifest.json';const m=JSON.parse(fs.readFileSync(p,'utf8'));m.browser_specific_settings.gecko.id=process.env.ADDON_ID;fs.writeFileSync(p,JSON.stringify(m,null,2)+'\n');" || exit /b 1
+if not "%ADDON_ID%%ADDON_VERSION%"=="" (
+  if not "%ADDON_ID%"=="" echo ==^> setting add-on id to %ADDON_ID%
+  if not "%ADDON_VERSION%"=="" echo ==^> setting add-on version to %ADDON_VERSION%
+  call node -e "const fs=require('fs');const p='dist/manifest.json';const m=JSON.parse(fs.readFileSync(p,'utf8'));if(process.env.ADDON_ID)m.browser_specific_settings.gecko.id=process.env.ADDON_ID;if(process.env.ADDON_VERSION)m.version=process.env.ADDON_VERSION;fs.writeFileSync(p,JSON.stringify(m,null,2)+'\n');" || exit /b 1
 )
 
 for /f "usebackq" %%v in (`node -p "require('./dist/manifest.json').version"`) do set "VERSION=%%v"
@@ -140,7 +142,8 @@ if "%WEB_EXT_API_SECRET%"=="" (
   exit /b 1
 )
 echo ==^> signing via AMO ^(unlisted channel^) as %CURRENT_ID%
-echo     note: if AMO rejects the id as already taken, re-run with ADDON_ID=^<new id^>
+echo     note: if AMO rejects the id as already taken, re-run with ADDON_ID=^<new id^>;
+echo           if it says this version already exists, re-run with ADDON_VERSION=^<new version^>
 call npx web-ext sign --source-dir dist --channel unlisted --artifacts-dir web-ext-artifacts || exit /b 1
 echo.
 echo Signed .xpi is in web-ext-artifacts\. Install it in any Firefox:

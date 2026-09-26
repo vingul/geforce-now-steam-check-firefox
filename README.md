@@ -39,7 +39,8 @@ GeForce NOW catalog and draws a small badge:
     `false` in `about:config`; release Firefox only takes it temporarily.
   - `sign` — signs through AMO's unlisted channel (`WEB_EXT_API_KEY` /
     `WEB_EXT_API_SECRET`) for a permanent install in release Firefox. Set
-    `ADDON_ID=<your id>` when signing a fork: the stock id is the upstream AMO listing's.
+    `ADDON_ID=<your id>` when signing a fork (the stock id is the upstream AMO listing's)
+    and bump `ADDON_VERSION=<x.y.z>` on each re-sign: AMO signs a given version once.
 
 Badges work as soon as it's installed; there's nothing to accept first. A welcome tab
 offers optional direct access to NVIDIA's catalog — worth taking, since it keeps checks

@@ -25,6 +25,9 @@
 #                       AMO listing, so signing this fork under your own account
 #                       needs a fresh id (e.g. gfn-check-fork@yourname). Also lets
 #                       the fork coexist with the AMO version.
+#   ADDON_VERSION=<v>   override the manifest version in the build. AMO signs a
+#                       given add-on version only once, so each re-sign of a
+#                       changed build needs a new one (e.g. 1.0.1, 1.0.2 …).
 #   FIREFOX=<path>      Firefox binary (or "firefoxdeveloperedition", "nightly") to
 #                       launch in `run` mode; web-ext auto-detects when unset.
 #   SKIP_CHECK=1        skip typecheck + tests before building.
@@ -119,13 +122,15 @@ fi
 echo "==> building dist/"
 node build.mjs
 
-if [ -n "${ADDON_ID:-}" ]; then
-  echo "==> setting add-on id to ${ADDON_ID}"
-  ADDON_ID="$ADDON_ID" node -e '
+if [ -n "${ADDON_ID:-}${ADDON_VERSION:-}" ]; then
+  [ -n "${ADDON_ID:-}" ] && echo "==> setting add-on id to ${ADDON_ID}"
+  [ -n "${ADDON_VERSION:-}" ] && echo "==> setting add-on version to ${ADDON_VERSION}"
+  ADDON_ID="${ADDON_ID:-}" ADDON_VERSION="${ADDON_VERSION:-}" node -e '
     const fs = require("fs");
     const p = "dist/manifest.json";
     const m = JSON.parse(fs.readFileSync(p, "utf8"));
-    m.browser_specific_settings.gecko.id = process.env.ADDON_ID;
+    if (process.env.ADDON_ID) m.browser_specific_settings.gecko.id = process.env.ADDON_ID;
+    if (process.env.ADDON_VERSION) m.version = process.env.ADDON_VERSION;
     fs.writeFileSync(p, JSON.stringify(m, null, 2) + "\n");
   '
 fi
@@ -184,7 +189,8 @@ MSG
     : "${WEB_EXT_API_KEY:?set WEB_EXT_API_KEY (AMO API credentials: https://addons.mozilla.org/developers/addon/api/key/)}"
     : "${WEB_EXT_API_SECRET:?set WEB_EXT_API_SECRET}"
     echo "==> signing via AMO (unlisted channel) as ${addon_id}"
-    echo "    note: if AMO rejects the id as already taken, re-run with ADDON_ID=<new id>"
+    echo "    note: if AMO rejects the id as already taken, re-run with ADDON_ID=<new id>;"
+    echo "          if it says this version already exists, re-run with ADDON_VERSION=<new version>"
     npx web-ext sign --source-dir dist --channel unlisted --artifacts-dir web-ext-artifacts
     cat <<MSG
 
