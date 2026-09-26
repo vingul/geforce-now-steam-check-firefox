@@ -35,13 +35,14 @@ export const BADGE_CSS = `
 .gfn-check-launch-btn:hover { background:linear-gradient(to right,#8fd11a 5%,#4e9316 95%);
   color:#fff !important; text-decoration:none !important; }
 .gfn-check-launch-btn:focus-visible { outline:2px solid #cdee87; outline-offset:2px; }
-/* The app button's right end IS the lockup's charcoal panel: no right padding,
-   the lockup stretched to the button's full height, and overflow clipped so
-   the panel follows the button's rounded corners. */
-.gfn-check-launch-app { padding-right:0; overflow:hidden; }
+/* The app button ends in the lockup's charcoal panel, stretched to the button's
+   full height; a small right padding keeps the panel's top-right corner clear
+   of the button's rounded corner. */
+.gfn-check-launch-app { padding-right:6px; }
 
-/* The lockup: the vector logo at the button's full height, width following
-   its aspect ratio; no text-shadow so the SVG is not smeared by the button's. */
+/* The lockup: the GEFORCE NOW panel at the button's full height, width
+   following its aspect ratio; no text-shadow so the SVG is not smeared by the
+   button's. */
 .gfn-check-lockup { display:inline-flex; align-items:stretch; align-self:stretch;
   height:32px; text-shadow:none; }
 .gfn-check-lockup svg { height:100%; width:auto; display:block; }
