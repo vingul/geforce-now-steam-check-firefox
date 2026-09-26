@@ -347,6 +347,20 @@ an `a[href]` anywhere outside Steam's global chrome whose href contains
 - [ ] ✅ No pills injected into Steam chrome (header, footer, nav).
 - [ ] ✅ Scrolling stays smooth; no runaway lookups in the console.
 
+### B.2a · Profile games list
+
+Same derivation as the wishlist (`content/list-page.ts` is shared), on
+`https://steamcommunity.com/id/<you>/games/?tab=all` (and `/profiles/<id>/games`).
+**Log in** — the list is yours.
+
+- [ ] ✅ Every game's thumbnail carries a compact pill in its bottom-right corner, matching
+      **that** game.
+- [ ] ✅ No pills in the community header, footer or nav.
+- [ ] Scroll a long list; use the search/filter box — ✅ pills follow recycled rows, none
+      stale, no runaway lookups.
+- [ ] ✅ The pill does not cover the thumbnail's play/hover controls, and the list's own
+      layout is unchanged.
+
 ### B.3 · Coexistence
 
 - [ ] Install **Augmented Steam**, reload a store page and the wishlist.

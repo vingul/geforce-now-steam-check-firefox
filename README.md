@@ -2,11 +2,11 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-A Firefox extension that badges Steam store and wishlist pages with NVIDIA
+A Firefox extension that badges Steam store, wishlist and profile games pages with NVIDIA
 **GeForce NOW** availability — so you can see whether a game streams on GFN without
 leaving Steam.
 
-On any Steam game's store page or your wishlist, it checks the title against NVIDIA's
+On any Steam game's store page, your wishlist or your profile's games list, it checks the title against NVIDIA's
 GeForce NOW catalog and draws a small badge:
 
 - A green *Playable on GeForce NOW* marker (with an RTX chip on RTX-enabled titles) when
@@ -61,7 +61,7 @@ See [PRIVACY.md](PRIVACY.md) for the full policy.
 ## How it works
 
 A background script caches NVIDIA's GeForce NOW catalog (12 h TTL) and indexes it
-by Steam app id. Content scripts on store/wishlist pages look games up and inject
+by Steam app id. Content scripts on store/wishlist/games-list pages look games up and inject
 namespaced (`gfn-check-*`) badges. Data source: the GFN catalog GraphQL API the
 GeForce NOW web app uses, `https://games.geforce.com/graphql` (the legacy static
 `gfnpc-*.json` feed is abandoned and returns false negatives — it is missing
@@ -93,7 +93,7 @@ just install      # npm ci — installs exact deps from package-lock.json
 just build        # node build.mjs → writes the unpacked extension to dist/
 ```
 
-`build.mjs` bundles the five entry points (background, store, wishlist, popup,
+`build.mjs` bundles the six entry points (background, store, wishlist, games, popup,
 onboarding) as classic IIFE scripts and copies `src/manifest.json`, `icons/`, and the
 extension HTML pages into `dist/`. No post-processing, minification toggles, or
 environment variables are involved.

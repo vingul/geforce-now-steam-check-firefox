@@ -14,6 +14,12 @@ const SVG_NS = "http://www.w3.org/2000/svg";
  *  because this module owns everything we inject into the page. */
 export const STATE_ATTR = "data-gfn-state";
 
+/** Set on `<html>` by the profile games-list script: its thumbnails are smaller
+ *  than wishlist capsules, so the overlay pill there is tucked closer into the
+ *  corner and set a size down (badge.css.ts). A class on the root rather than a
+ *  second pill renderer, so the pill's markup and stamp contract stay one thing. */
+export const GAMES_PAGE_CLASS = "gfn-check-page-games";
+
 /** GFN mark, mirrors icons/icon.svg. Built via DOM (not innerHTML) so it needs
  *  no asset/host perms and stays clear of unsafe-assignment lint. */
 function logoSvg(doc: Document): SVGElement {

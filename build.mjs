@@ -10,6 +10,7 @@ await esbuild.build({
     background: "src/background/feed-service.ts",
     store: "src/content/store.ts",
     wishlist: "src/content/wishlist.ts",
+    games: "src/content/games.ts",
     popup: "src/popup/popup.ts",
     onboarding: "src/onboarding/onboarding.ts",
   },

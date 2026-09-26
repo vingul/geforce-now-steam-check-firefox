@@ -39,8 +39,8 @@ function render(steam: boolean, feed: boolean): void {
   explain.textContent = !steam
     ? "Badges appear only after you click this icon — which is why the page behind this popup has one now."
     : feed
-      ? "Badges appear on Steam store and wishlist pages. The catalog is read directly from NVIDIA."
-      : "Badges appear on Steam store and wishlist pages. Optionally, allow direct access to NVIDIA's catalog — not required today, but it keeps checks working if NVIDIA changes how the catalog may be read.";
+      ? "Badges appear on Steam store, wishlist and profile games pages. The catalog is read directly from NVIDIA."
+      : "Badges appear on Steam store, wishlist and profile games pages. Optionally, allow direct access to NVIDIA's catalog — not required today, but it keeps checks working if NVIDIA changes how the catalog may be read.";
 
   // One call to action at a time, and click-to-run is the one that changes what
   // the user sees. The optional catalog grant waits its turn.

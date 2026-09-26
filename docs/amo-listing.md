@@ -58,7 +58,8 @@ Alternative (208):
 - A neutral *Not available* marker when a game isn't in the catalog
 - A *couldn't check* state if the catalog is temporarily unreachable — it **never** shows a false "not supported"
 
-Works on Steam store pages and your Steam wishlist (store.steampowered.com).
+Works on Steam store pages and your Steam wishlist (store.steampowered.com), and on your
+profile's games list (steamcommunity.com).
 
 **How it works**
 
@@ -122,7 +123,7 @@ GeForce NOW check for Steam does not collect, store, or transmit any personal da
 
 - Network requests: The extension makes a single kind of outbound request — it fetches NVIDIA's public GeForce NOW game catalog from games.geforce.com. No information about you, your browsing, or your Steam account is sent; the request asks only for the public list of supported games.
 - Local storage: The fetched catalog is cached in your browser for up to 12 hours so it isn't refetched on every page, alongside the time of the last fetch (used to tell open Steam pages that a newer catalog is available). This never leaves your device and contains only NVIDIA's public catalog data and that timestamp.
-- Page access: Content scripts run only on store.steampowered.com store and wishlist pages, where they read the Steam app IDs already on the page to look them up and draw a badge. Nothing else is read or transmitted.
+- Page access: Content scripts run only on store.steampowered.com store and wishlist pages and on the games list of a steamcommunity.com profile, where they read the Steam app IDs already on the page to look them up and draw a badge. Nothing else is read or transmitted.
 
 The extension declares no data collection in its manifest. Questions: https://github.com/mjrossi/geforce-now-steam-check-firefox/issues
 ```
@@ -166,12 +167,13 @@ source submission) — cut elsewhere first.
 WHAT IT DOES
 Adds a badge to Steam store and wishlist pages showing whether each game is
 playable on NVIDIA GeForce NOW. Runs only on store.steampowered.com /app/ and
-/wishlist/ pages.
+/wishlist/ pages and on steamcommunity.com profile /games pages.
 
 PERMISSIONS / DATA
 - "storage": caches NVIDIA's public GFN catalog locally (~12h TTL) plus the
   timestamp of the last fetch.
-- content scripts on https://store.steampowered.com/app/* and /wishlist/*: read
+- content scripts on https://store.steampowered.com/app/*, /wishlist/*, and
+  https://steamcommunity.com/id/*/games* + /profiles/*/games*: read
   the Steam app IDs already on the page in order to draw a badge.
 - optional_host_permissions for those same two patterns: declared only so the
   popup can call permissions.request() when the user has set the add-on to "only
@@ -210,7 +212,7 @@ Tooling is pinned via mise (Node 22.22.3) and just:
     just build       # node build.mjs -> unpacked extension in dist/
 Without mise/just, on Node 22.22.3: npm ci && node build.mjs
 
-build.mjs bundles five entry points (background, store, wishlist, popup,
+build.mjs bundles six entry points (background, store, wishlist, games, popup,
 onboarding) as classic IIFE scripts and copies src/manifest.json, the icon
 assets, and the HTML pages into dist/. No minification, no environment
 variables, no other post-processing; dist/ matches the uploaded package. The

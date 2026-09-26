@@ -41,4 +41,6 @@ export const FEED_ORIGINS = ["https://games.geforce.com/*"];
 export const STEAM_ORIGINS = [
   "https://store.steampowered.com/app/*",
   "https://store.steampowered.com/wishlist/*",
+  "https://steamcommunity.com/id/*/games*",
+  "https://steamcommunity.com/profiles/*/games*",
 ];

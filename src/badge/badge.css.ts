@@ -66,4 +66,8 @@ export const BADGE_CSS = `
 .gfn-check-pill-slot--overlay { position:absolute; right:8px; bottom:8px; z-index:3;
   pointer-events:none; }
 .gfn-check-pill-slot--overlay .gfn-check-pill { box-shadow:0 1px 4px rgba(0,0,0,.55); }
+/* Profile games list: small thumbnails, so a compact pill tucked into the corner. */
+.gfn-check-page-games .gfn-check-pill-slot--overlay { right:4px; bottom:4px; }
+.gfn-check-page-games .gfn-check-pill { font-size:11px; padding:2px 7px; gap:4px; }
+.gfn-check-page-games .gfn-check-dot { width:6px; height:6px; }
 `;

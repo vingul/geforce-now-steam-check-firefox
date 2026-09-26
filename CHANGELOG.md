@@ -18,6 +18,11 @@ All notable changes to this project are documented here. The format is based on
   the localized button text, so it works in every store language. Nothing is injected for
   unowned or unsupported games, and a rebuild of that part of the page by Steam or
   another extension cannot strand stale buttons.
+- **Badges on your profile's games list.** `steamcommunity.com/id/<you>/games` and
+  `/profiles/<id>/games` get the same pill as the wishlist, overlaid on each game's
+  thumbnail in a compact size. The list derives rows exactly as the wishlist does, so
+  the two share one implementation (`content/list-page.ts`). The games-list URLs join
+  the content-script matches and the requestable origins.
 - **One-command local install.** `scripts/install-local.sh` / `scripts\install-local.cmd`
   build the checkout and either launch Firefox with it loaded (`run`), package an
   unsigned `.xpi` (`xpi`), or sign it through AMO (`sign`), with an `ADDON_ID` override

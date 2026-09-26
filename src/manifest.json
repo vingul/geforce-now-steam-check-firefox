@@ -14,7 +14,9 @@
   "host_permissions": ["https://games.geforce.com/*"],
   "optional_host_permissions": [
     "https://store.steampowered.com/app/*",
-    "https://store.steampowered.com/wishlist/*"
+    "https://store.steampowered.com/wishlist/*",
+    "https://steamcommunity.com/id/*/games*",
+    "https://steamcommunity.com/profiles/*/games*"
   ],
   "action": {
     "default_popup": "popup.html",
@@ -31,6 +33,14 @@
     {
       "matches": ["https://store.steampowered.com/wishlist/*"],
       "js": ["wishlist.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://steamcommunity.com/id/*/games*",
+        "https://steamcommunity.com/profiles/*/games*"
+      ],
+      "js": ["games.js"],
       "run_at": "document_idle"
     }
   ],

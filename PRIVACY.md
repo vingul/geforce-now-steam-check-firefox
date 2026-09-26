@@ -18,9 +18,10 @@ data. There are no analytics, no tracking, and no accounts.
   contains only NVIDIA's public catalog data and that timestamp.
 
 - **Page access.** Content scripts run only on `store.steampowered.com` app and
-  wishlist pages. They read the Steam app IDs already present on the page in order to
-  look them up in the cached catalog and draw an availability badge. They do not read,
-  collect, or transmit anything else from those pages.
+  wishlist pages and on the games list of a `steamcommunity.com` profile. They read the
+  Steam app IDs already present on the page in order to look them up in the cached
+  catalog and draw an availability badge. They do not read, collect, or transmit
+  anything else from those pages.
 
 ## Data collection declaration
 
