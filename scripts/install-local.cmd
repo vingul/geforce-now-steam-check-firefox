@@ -96,8 +96,11 @@ echo     "Temporary Extensions"^) and on a Steam game page that is on GeForce NO
 echo     Firefox 128+ is required; below that web-ext prints an "incompatible" error
 echo     right here and nothing is installed.
 echo.
-if not exist .firefox-dev-profile mkdir .firefox-dev-profile
-set "WEBEXT_ARGS=run --source-dir dist --firefox-profile .firefox-dev-profile --keep-profile-changes --start-url "about:debugging#/runtime/this-firefox" --start-url "https://store.steampowered.com/app/1091500/""
+rem Absolute path on purpose: fx-runner treats a value without a slash as a
+rem profile *name* (-P), which Firefox resolves to your default profile.
+set "PROFILE_DIR=%CD%\.firefox-dev-profile"
+if not exist "%PROFILE_DIR%" mkdir "%PROFILE_DIR%"
+set "WEBEXT_ARGS=run --source-dir dist --firefox-profile "%PROFILE_DIR%" --keep-profile-changes --start-url "about:debugging#/runtime/this-firefox" --start-url "https://store.steampowered.com/app/1091500/""
 if "%FIREFOX%"=="" (
   call npx web-ext %WEBEXT_ARGS%
 ) else (

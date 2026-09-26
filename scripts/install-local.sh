@@ -44,8 +44,23 @@ node_ok() {
 # otherwise nvm (https://github.com/nvm-sh/nvm), which needs no sudo and does not
 # touch a system Node. Either way the new binary is put on this script's PATH so
 # the build continues in the same run.
+# A Node installed by nvm lives outside PATH until the shell sources nvm.sh — a
+# fresh terminal, or a shell whose rc file nvm's installer did not know about,
+# never sees it. Pick it up quietly before concluding Node is missing.
+load_nvm_node() {
+  export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+  [ -s "$NVM_DIR/nvm.sh" ] || return 1
+  set +eu
+  # shellcheck disable=SC1091
+  . "$NVM_DIR/nvm.sh" --no-use
+  nvm use "$NODE_MAJOR_REQUIRED" >/dev/null 2>&1
+  set -eu
+  node_ok
+}
+
 ensure_node() {
   node_ok && return 0
+  load_nvm_node && return 0
   if command -v node >/dev/null 2>&1; then
     echo "==> Node.js $(node -v) found, but ${NODE_MAJOR_REQUIRED}+ is required — installing"
   else
@@ -131,8 +146,13 @@ case "$mode" in
     right here and nothing is installed.
 
 MSG
-    mkdir -p .firefox-dev-profile
-    args=(run --source-dir dist --firefox-profile .firefox-dev-profile --keep-profile-changes
+    # Absolute path on purpose: web-ext hands the value to fx-runner unresolved,
+    # and fx-runner treats anything without a slash as a profile *name* (-P),
+    # which Firefox silently resolves to your default profile when no such name
+    # exists — the add-on then never installs and web-ext cannot connect.
+    profile_dir="$PWD/.firefox-dev-profile"
+    mkdir -p "$profile_dir"
+    args=(run --source-dir dist --firefox-profile "$profile_dir" --keep-profile-changes
       --start-url "about:debugging#/runtime/this-firefox"
       --start-url "https://store.steampowered.com/app/1091500/")
     [ -n "${FIREFOX:-}" ] && args+=(--firefox "$FIREFOX")
