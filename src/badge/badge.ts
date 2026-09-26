@@ -100,6 +100,47 @@ export function renderStoreBanner(doc: Document, state: BadgeState): HTMLElement
   return el;
 }
 
+/** The NVIDIA GeForce NOW lockup, drawn as DOM + SVG so it needs no asset or
+ *  host permission: a lime block carrying a simplified NVIDIA eye mark next to a
+ *  charcoal block with "GEFORCE / NOW" stacked in white. Used as the tail of the
+ *  app launch button in place of the words "GeForce NOW". */
+function gfnLockup(doc: Document): HTMLElement {
+  const lockup = span(doc, "gfn-check-lockup");
+  lockup.setAttribute("aria-label", "GeForce NOW");
+  lockup.title = "GeForce NOW";
+
+  const nv = span(doc, "gfn-check-lockup-nv");
+  const svg = doc.createElementNS(SVG_NS, "svg");
+  svg.setAttribute("viewBox", "0 0 32 20");
+  svg.setAttribute("aria-hidden", "true");
+  // Eye outline: pointed at the left, rounded at the right.
+  const outline = doc.createElementNS(SVG_NS, "path");
+  outline.setAttribute(
+    "d",
+    "M2 10 C7 3 15 1 22 3 C27 4.5 30 7 30 10 C30 13 27 15.5 22 17 C15 19 7 17 2 10 Z",
+  );
+  outline.setAttribute("fill", "none");
+  outline.setAttribute("stroke", "#000");
+  outline.setAttribute("stroke-width", "2.2");
+  outline.setAttribute("stroke-linejoin", "round");
+  // The inner curl that gives the mark its spiral.
+  const curl = doc.createElementNS(SVG_NS, "path");
+  curl.setAttribute("d", "M9 10 C11 5.5 19 4.5 22 8 C24.5 11 21 15 16.5 14 C13.5 13.3 13 10.5 15.5 9.5");
+  curl.setAttribute("fill", "none");
+  curl.setAttribute("stroke", "#000");
+  curl.setAttribute("stroke-width", "2.2");
+  curl.setAttribute("stroke-linecap", "round");
+  svg.append(outline, curl);
+  nv.appendChild(svg);
+
+  const gfn = span(doc, "gfn-check-lockup-gfn");
+  gfn.appendChild(span(doc, "gfn-check-lockup-line", "GEFORCE"));
+  gfn.appendChild(span(doc, "gfn-check-lockup-line", "NOW"));
+
+  lockup.append(nv, gfn);
+  return lockup;
+}
+
 function launchButton(
   doc: Document,
   className: string,
@@ -122,40 +163,40 @@ function launchButton(
 
 /** The GeForce NOW launch buttons for a store page whose game the user already
  *  owns (content/ownership.ts decides that). They sit on the same row as
- *  Steam's own play button and are styled after the GeForce NOW app's own
- *  primary/secondary buttons rather than as banner chrome:
+ *  Steam's own play button and are styled as Steam's own medium buttons with a
+ *  green tint, so they read as part of that row:
  *
- *  - "PLAY ON GEFORCE NOW" — the native app deep link (`geforcenow://`).
- *    Targetless: Firefox hands the custom scheme to the OS without leaving
- *    the page.
- *  - "PLAY IN WEB" — the web app, in a new tab, for a machine without the app.
+ *  - "Play on" + the NVIDIA GeForce NOW lockup — the native app deep link
+ *    (`geforcenow://`). Targetless: Firefox hands the custom scheme to the OS
+ *    without leaving the page.
+ *  - "Play in Web" — the web app, in a new tab, for a machine without the app.
  *
  *  Same link policy as `resolveLaunchLinks`: a stale cache with only a gfnId
- *  gets the web button alone (promoted to the primary style, since it is then
- *  the one launch on offer), and `null` — render nothing — when the game is not
- *  supported or the cache predates deep links. Never a wrong link, only fewer.
- *  Returns one container so the caller has a single node to stamp and place. */
+ *  gets the web button alone, and `null` — render nothing — when the game is
+ *  not supported or the cache predates deep links. Never a wrong link, only
+ *  fewer. Returns one container so the caller has a single node to stamp and
+ *  place. */
 export function renderLaunchButtons(doc: Document, state: BadgeState): HTMLElement | null {
   const { appUrl, webUrl } = resolveLaunchLinks(state);
   if (appUrl === null && webUrl === null) return null;
   const el = span(doc, "gfn-check-launch");
   if (appUrl !== null) {
-    el.appendChild(
-      launchButton(
-        doc,
-        "gfn-check-launch-btn--primary gfn-check-launch-app",
-        appUrl,
-        "Play on GeForce NOW",
-        "Launch in the GeForce NOW app",
-        false,
-      ),
+    const app = launchButton(
+      doc,
+      "gfn-check-launch-app",
+      appUrl,
+      "Play on",
+      "Launch in the GeForce NOW app",
+      false,
     );
+    app.appendChild(gfnLockup(doc));
+    el.appendChild(app);
   }
   if (webUrl !== null) {
     el.appendChild(
       launchButton(
         doc,
-        `${appUrl === null ? "gfn-check-launch-btn--primary" : "gfn-check-launch-btn--secondary"} gfn-check-launch-web`,
+        "gfn-check-launch-web",
         webUrl,
         "Play in Web",
         "Open in the GeForce NOW web app (new tab)",

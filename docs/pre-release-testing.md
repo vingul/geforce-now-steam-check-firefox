@@ -319,11 +319,12 @@ an `a[href]` anywhere outside Steam's global chrome whose href contains
 **Log in** to a Steam account for this section.
 
 - [ ] A game you **own** that is on GFN — ✅ two buttons appear right after Steam's own
-      play button, on its row: green *PLAY ON GEFORCE NOW* and dark *PLAY IN WEB*, styled
-      like the GeForce NOW app's own buttons.
-- [ ] Click *PLAY ON GEFORCE NOW* — ✅ Firefox hands `geforcenow://` to the OS and the GFN
-      app opens the game (or prompts for the app when it isn't installed). The page stays.
-- [ ] Click *PLAY IN WEB* — ✅ play.geforcenow.com opens in a new tab on that game.
+      play button, on its row and at its size, green-tinted: *Play on* ending in the
+      NVIDIA GeForce NOW lockup (lime eye block + charcoal "GEFORCE / NOW"), and
+      *Play in Web*.
+- [ ] Click *Play on ▮GeForce NOW▮* — ✅ Firefox hands `geforcenow://` to the OS and the
+      GFN app opens the game (or prompts for the app when it isn't installed). The page stays.
+- [ ] Click *Play in Web* — ✅ play.geforcenow.com opens in a new tab on that game.
 - [ ] The banner under the title — ✅ is **not** a link any more; it only reports the state.
 - [ ] Switch the store language (footer) to something non-English — ✅ the buttons still
       appear: detection must survive a localized "Play" label.

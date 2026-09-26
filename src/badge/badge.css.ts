@@ -17,24 +17,36 @@ export const BADGE_CSS = `
   padding:2px 8px; border-radius:9px; letter-spacing:.5px; white-space:nowrap;
   background:#76b900; color:#000; }
 
-/* Launch buttons beside Steam's own play button, styled after the GeForce NOW
-   app: a flat NVIDIA-green primary with bold black uppercase text, and a flat
-   dark secondary with white text, both 36px tall with 2px corners. They are one
-   inline-flex row so they follow Steam's button on the same line, with explicit
-   colors and no underline so Steam's anchor styles cannot restyle them. */
-.gfn-check-launch { display:inline-flex; align-items:center; gap:8px;
-  vertical-align:middle; margin-left:10px; }
-.gfn-check-launch-btn { display:inline-flex; align-items:center; box-sizing:border-box;
-  height:36px; padding:0 18px; border-radius:2px; border:none;
-  font-size:14px; line-height:36px; font-weight:700; letter-spacing:.4px;
-  text-transform:uppercase; white-space:nowrap; cursor:pointer;
-  font-family:"NVIDIA Sans","Motiva Sans",Arial,Helvetica,sans-serif;
-  text-decoration:none !important; transition:background-color .12s ease; }
-.gfn-check-launch-btn--primary { background:#76b900; color:#000 !important; }
-.gfn-check-launch-btn--primary:hover { background:#8ad100; color:#000 !important; }
-.gfn-check-launch-btn--secondary { background:#3b3b3b; color:#fff !important; }
-.gfn-check-launch-btn--secondary:hover { background:#4a4a4a; color:#fff !important; }
+/* Launch buttons beside Steam's own play button, built to Steam's own
+   .btn_medium geometry (32px tall, 15px Motiva Sans, 2px corners, 15px side
+   padding, left-to-right gradient) so they read as one more button on that
+   row — but tinted GeForce green instead of Steam blue. Explicit colors and no
+   underline so Steam's anchor styles cannot restyle them; the hover brightens
+   like Steam's. The app button ends in the NVIDIA GeForce NOW lockup, drawn in
+   badge.ts, scaled to fit the button's height. */
+.gfn-check-launch { display:inline-flex; align-items:center; gap:6px;
+  vertical-align:middle; margin-left:6px; }
+.gfn-check-launch-btn { display:inline-flex; align-items:center; gap:8px;
+  box-sizing:border-box; height:32px; padding:0 15px; border-radius:2px; border:none;
+  background:linear-gradient(to right,#6fb414 5%,#3f7a12 95%);
+  color:#fff !important; font-size:15px; line-height:32px; font-weight:normal;
+  font-family:"Motiva Sans",Arial,Helvetica,sans-serif; white-space:nowrap; cursor:pointer;
+  text-decoration:none !important; text-shadow:1px 1px 0 rgba(0,0,0,.3); }
+.gfn-check-launch-btn:hover { background:linear-gradient(to right,#8fd11a 5%,#4e9316 95%);
+  color:#fff !important; text-decoration:none !important; }
 .gfn-check-launch-btn:focus-visible { outline:2px solid #cdee87; outline-offset:2px; }
+.gfn-check-launch-app { padding-right:4px; }
+
+/* The lockup: lime NVIDIA block + charcoal "GEFORCE / NOW" block, 24px tall. */
+.gfn-check-lockup { display:inline-flex; align-items:stretch; height:24px;
+  border-radius:1px; overflow:hidden; text-shadow:none; }
+.gfn-check-lockup-nv { display:flex; align-items:center; justify-content:center;
+  width:26px; background:#76b900; }
+.gfn-check-lockup-nv svg { width:20px; height:12px; display:block; }
+.gfn-check-lockup-gfn { display:flex; flex-direction:column; justify-content:center;
+  padding:0 6px; background:#1a1a1a; color:#fff; }
+.gfn-check-lockup-line { display:block; font-size:8px; line-height:9px; font-weight:bold;
+  letter-spacing:.5px; font-family:Arial,Helvetica,sans-serif; }
 
 .gfn-check-pill { display:inline-flex; align-items:center; gap:5px; font-size:12px;
   padding:3px 9px; border-radius:10px; white-space:nowrap; font-weight:bold;

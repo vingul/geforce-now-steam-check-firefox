@@ -8,9 +8,9 @@ All notable changes to this project are documented here. The format is based on
 
 - **Launch buttons beside Steam's play button on games you own; the banner no longer
   links.** When a store page shows you already own the game *and* the catalog says it
-  streams, two buttons styled after the GeForce NOW app are injected right after Steam's
-  own play button: *Play on GeForce NOW* deep-links into the GeForce NOW app and
-  *Play in Web* opens the web app in a new tab (a cache written before deep links
+  streams, two buttons in Steam's own button style with a green tint are injected right
+  after Steam's own play button: *Play on* + the NVIDIA GeForce NOW lockup deep-links
+  into the GeForce NOW app, and *Play in Web* opens the web app in a new tab (a cache written before deep links
   existed gets the web button alone). The banner under the title is informational only
   now — it used to be the deep link, which offered a launch on games the account cannot
   stream. Ownership is read from Steam's markup — the `steam://run/` launch link for this

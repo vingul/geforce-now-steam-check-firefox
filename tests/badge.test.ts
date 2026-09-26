@@ -83,7 +83,7 @@ describe("renderLaunchButtons", () => {
   const gfnId = "e5bd86f0-3f67-4bec-a505-d1315f3c0d50";
   const cmsId = 100885011;
 
-  test("supported with both ids: app button (same tab) + web button (new tab)", () => {
+  test("supported with both ids: app button (same tab, ends in the lockup) + web button (new tab)", () => {
     const el = renderLaunchButtons(document, { kind: "supported", rtx: false, gfnId, cmsId })!;
     expect(el).not.toBeNull();
     expect(el.className).toBe("gfn-check-launch");
@@ -91,27 +91,31 @@ describe("renderLaunchButtons", () => {
     expect(buttons.length).toBe(2);
 
     const app = buttons[0]!;
-    expect(app.className).toContain("gfn-check-launch-btn--primary");
     expect(app.className).toContain("gfn-check-launch-app");
     expect(app.getAttribute("href")).toBe(gfnAppUrl(cmsId, gfnId));
     expect(app.target).toBe("");
-    expect(app.textContent).toBe("Play on GeForce NOW");
+    expect(app.querySelector(".gfn-check-launch-label")!.textContent).toBe("Play on");
+    const lockup = app.querySelector(".gfn-check-lockup")!;
+    expect(lockup).not.toBeNull();
+    expect(lockup.getAttribute("aria-label")).toBe("GeForce NOW");
+    expect(lockup.querySelector(".gfn-check-lockup-nv svg")).not.toBeNull();
+    const lines = [...lockup.querySelectorAll(".gfn-check-lockup-line")].map((l) => l.textContent);
+    expect(lines).toEqual(["GEFORCE", "NOW"]);
 
     const web = buttons[1]!;
-    expect(web.className).toContain("gfn-check-launch-btn--secondary");
     expect(web.className).toContain("gfn-check-launch-web");
     expect(web.getAttribute("href")).toBe(gfnPlayUrl(gfnId));
     expect(web.target).toBe("_blank");
     expect(web.rel).toBe("noopener noreferrer");
     expect(web.textContent).toBe("Play in Web");
+    expect(web.querySelector(".gfn-check-lockup")).toBeNull();
   });
 
-  test("supported with only a gfn id (stale v2 cache): web button alone, promoted to primary", () => {
+  test("supported with only a gfn id (stale v2 cache): web button alone", () => {
     const el = renderLaunchButtons(document, { kind: "supported", rtx: true, gfnId })!;
     const buttons = el.querySelectorAll<HTMLAnchorElement>("a.gfn-check-launch-btn");
     expect(buttons.length).toBe(1);
     expect(buttons[0]!.className).toContain("gfn-check-launch-web");
-    expect(buttons[0]!.className).toContain("gfn-check-launch-btn--primary");
     expect(buttons[0]!.getAttribute("href")).toBe(gfnPlayUrl(gfnId));
     expect(buttons[0]!.target).toBe("_blank");
   });
@@ -126,13 +130,13 @@ describe("renderLaunchButtons", () => {
     expect(renderLaunchButtons(document, { kind: "needs-permission" })).toBeNull();
   });
 
-  test("labels are plain text nodes, never innerHTML", () => {
+  test("built from DOM nodes, never innerHTML", () => {
     const el = renderLaunchButtons(document, { kind: "supported", rtx: false, gfnId, cmsId })!;
     expect(el.innerHTML).not.toContain("<script");
-    for (const a of el.querySelectorAll("a")) {
-      expect(a.childElementCount).toBe(1);
-      expect(a.firstElementChild!.className).toBe("gfn-check-launch-label");
-    }
+    const app = el.querySelector("a.gfn-check-launch-app")!;
+    expect(app.childElementCount).toBe(2);
+    expect(app.firstElementChild!.className).toBe("gfn-check-launch-label");
+    expect(app.lastElementChild!.className).toBe("gfn-check-lockup");
   });
 });
 
