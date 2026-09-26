@@ -15,6 +15,10 @@ All notable changes to this project are documented here. The format is based on
   language. It comes and goes with the markup: nothing is injected for unowned or
   unsupported games, and a purchase-area rebuild by Steam or another extension cannot
   strand a stale button.
+- **One-command local install.** `scripts/install-local.sh` / `scripts\install-local.cmd`
+  build the checkout and either launch Firefox with it loaded (`run`), package an
+  unsigned `.xpi` (`xpi`), or sign it through AMO (`sign`), with an `ADDON_ID` override
+  for forks.
 
 ## [1.0.0] — 2026-08-02
 

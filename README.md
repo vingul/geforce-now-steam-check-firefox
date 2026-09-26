@@ -28,6 +28,16 @@ GeForce NOW catalog and draws a small badge:
 - **From source:** clone the repo, run `just build`, then load it via `about:debugging` →
   This Firefox → Load Temporary Add-on → pick any file in `dist/`. Temporary add-ons
   unload when Firefox restarts.
+- **From this checkout, scripted:** `scripts/install-local.sh` (macOS/Linux/Git Bash) or
+  `scripts\install-local.cmd` (Windows) needs only Node.js 22+ and does the rest:
+  - `run` _(default)_ — builds and launches Firefox with the extension loaded, in a
+    persistent dev profile next to the repo. Nothing to sign; reloads on every start.
+  - `xpi` — builds an unsigned `.xpi` in `web-ext-artifacts/`. Installs permanently in
+    Firefox Developer Edition / Nightly / ESR once `xpinstall.signatures.required` is
+    `false` in `about:config`; release Firefox only takes it temporarily.
+  - `sign` — signs through AMO's unlisted channel (`WEB_EXT_API_KEY` /
+    `WEB_EXT_API_SECRET`) for a permanent install in release Firefox. Set
+    `ADDON_ID=<your id>` when signing a fork: the stock id is the upstream AMO listing's.
 
 Badges work as soon as it's installed; there's nothing to accept first. A welcome tab
 offers optional direct access to NVIDIA's catalog — worth taking, since it keeps checks
