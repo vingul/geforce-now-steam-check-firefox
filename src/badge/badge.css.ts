@@ -24,8 +24,10 @@ export const BADGE_CSS = `
    underline so Steam's anchor styles cannot restyle them; the hover brightens
    like Steam's. The app button ends in the NVIDIA GeForce NOW lockup, drawn in
    badge.ts, scaled to fit the button's height. */
-.gfn-check-launch { display:inline-flex; align-items:center; gap:6px;
-  vertical-align:middle; margin-left:6px; }
+/* No vertical-align on the row: Steam lays its play-row buttons out inline
+   on the baseline, and vertical-align:middle here sat ours visibly lower than
+   "Play" on the live page. Left at the default, the row shares their baseline. */
+.gfn-check-launch { display:inline-flex; align-items:center; gap:6px; margin-left:6px; }
 .gfn-check-launch-btn { display:inline-flex; align-items:center; gap:8px;
   box-sizing:border-box; height:32px; padding:0 15px; border-radius:2px; border:none;
   background:linear-gradient(to right,#6fb414 5%,#3f7a12 95%);
