@@ -8,12 +8,16 @@ import {
   STATE_ATTR,
   ensureStyles,
   placeAfter,
+  placeAt,
   placeBefore,
+  renderPlayButton,
   renderStoreBanner,
 } from "../badge/badge";
+import { ownedButtonAnchor } from "./ownership";
 import { log } from "../shared/log";
 
 const SLOT_ID = "gfn-check-store-slot";
+const PLAY_SLOT_ID = "gfn-check-play-slot";
 // The banner sits right under the game title/header. We try the header anchors
 // first (placed after them) and fall back to just above the purchase block.
 // These are the selectors to re-verify against the live store page if placement
@@ -50,6 +54,11 @@ let attempt = 0;
  *  rows. It encodes more than `kind` because a new catalog can turn one definitive
  *  answer into a different definitive answer (see resolve-state.ts). */
 function paint(next: BadgeState): void {
+  paintBanner(next);
+  paintPlayButton(next);
+}
+
+function paintBanner(next: BadgeState): void {
   const stamp = stateStamp(next);
   const existing = document.getElementById(SLOT_ID);
   if (existing !== null) {
@@ -64,6 +73,29 @@ function paint(next: BadgeState): void {
     if (placeAfter(document, sel, badge)) return;
   }
   placeBefore(document, PURCHASE_SELECTOR, badge);
+}
+
+/** A second, optional injection: "Play on GeForce NOW" beside Steam's own play
+ *  button, only when the page says the user owns the game (content/ownership.ts)
+ *  *and* the catalog says it is streamable with a link to offer. Both facts are
+ *  re-read on every paint — ownership from the live DOM, the link from `next` —
+ *  and the button is removed when either stops holding, so a purchase-area
+ *  rebuild by Steam or another extension cannot strand a stale one. Same stamp
+ *  contract as the banner: an unchanged state on an attached node is a no-op. */
+function paintPlayButton(next: BadgeState): void {
+  const existing = document.getElementById(PLAY_SLOT_ID);
+  const anchor = ownedButtonAnchor(document);
+  const button = anchor === null ? null : renderPlayButton(document, next);
+  if (anchor === null || button === null) {
+    existing?.remove();
+    return;
+  }
+  const stamp = stateStamp(next);
+  if (existing !== null && existing.getAttribute(STATE_ATTR) === stamp) return;
+  ensureStyles(document);
+  button.id = PLAY_SLOT_ID;
+  button.setAttribute(STATE_ATTR, stamp);
+  placeAt(document, anchor.el, anchor.mode, button);
 }
 
 // Coalesced: a retry timer and a catalog epoch can both fire while a lookup is

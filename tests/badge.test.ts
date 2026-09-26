@@ -3,7 +3,9 @@ import { beforeEach, describe, expect, test } from "vitest";
 import {
   ensureStyles,
   placeAfter,
+  placeAt,
   placeBefore,
+  renderPlayButton,
   renderStoreBanner,
   renderWishlistPill,
 } from "../src/badge/badge";
@@ -116,6 +118,79 @@ describe("renderStoreBanner", () => {
       expect(el.className).not.toContain("gfn-check-banner--link");
       expect(el.querySelector(".gfn-check-play")).toBeNull();
     }
+  });
+});
+
+describe("renderPlayButton", () => {
+  const gfnId = "e5bd86f0-3f67-4bec-a505-d1315f3c0d50";
+  const cmsId = 100885011;
+
+  test("supported with both ids launches the native app, same tab", () => {
+    const a = renderPlayButton(document, { kind: "supported", rtx: false, gfnId, cmsId })!;
+    expect(a).not.toBeNull();
+    expect(a.tagName).toBe("A");
+    expect(a.className).toBe("gfn-check-playbtn");
+    expect(a.getAttribute("href")).toBe(gfnAppUrl(cmsId, gfnId));
+    expect(a.target).toBe("");
+    expect(a.querySelector(".gfn-check-playbtn-text")!.textContent).toBe("Play on GeForce NOW");
+    expect(a.querySelector(".gfn-check-playbtn-logo svg")).not.toBeNull();
+  });
+
+  test("supported with only a gfn id (stale v2 cache) degrades to the web app in a new tab", () => {
+    const a = renderPlayButton(document, { kind: "supported", rtx: true, gfnId })!;
+    expect(a.getAttribute("href")).toBe(gfnPlayUrl(gfnId));
+    expect(a.target).toBe("_blank");
+    expect(a.rel).toBe("noopener noreferrer");
+    expect(a.querySelector(".gfn-check-playbtn-text")!.textContent).toBe("Play on GeForce NOW ↗");
+  });
+
+  test("supported without ids (stale pre-v2 cache) renders nothing rather than a dead link", () => {
+    expect(renderPlayButton(document, { kind: "supported", rtx: false })).toBeNull();
+  });
+
+  test("non-supported states render nothing", () => {
+    expect(renderPlayButton(document, { kind: "not-supported" })).toBeNull();
+    expect(renderPlayButton(document, { kind: "unknown" })).toBeNull();
+    expect(renderPlayButton(document, { kind: "needs-permission" })).toBeNull();
+  });
+
+  test("never built from innerHTML", () => {
+    const a = renderPlayButton(document, { kind: "supported", rtx: false, gfnId, cmsId })!;
+    expect(a.innerHTML).not.toContain("<script");
+    expect(a.childElementCount).toBe(2);
+  });
+});
+
+describe("placeAt", () => {
+  test("after: inserts as the anchor's next sibling and is idempotent by id", () => {
+    document.body.innerHTML = `<div id="wrap"><div class="btn_addtocart"><a href="steam://run/1">Play</a></div><span id="tail"></span></div>`;
+    const anchor = document.querySelector(".btn_addtocart")!;
+    const first = document.createElement("a");
+    first.id = "slot";
+    placeAt(document, anchor, "after", first);
+    const second = document.createElement("a");
+    second.id = "slot";
+    placeAt(document, anchor, "after", second);
+    expect(document.querySelectorAll("#slot").length).toBe(1);
+    expect(anchor.nextElementSibling).toBe(second);
+    expect(second.nextElementSibling!.id).toBe("tail");
+  });
+
+  test("append: becomes the anchor's last child", () => {
+    document.body.innerHTML = `<div class="game_area_already_in_library"><span>owned</span></div>`;
+    const flag = document.querySelector(".game_area_already_in_library")!;
+    const el = document.createElement("a");
+    el.id = "slot";
+    placeAt(document, flag, "append", el);
+    expect(flag.lastElementChild).toBe(el);
+    expect(flag.childElementCount).toBe(2);
+  });
+
+  test("after with a detached anchor falls back to append instead of throwing", () => {
+    const anchor = document.createElement("div");
+    const el = document.createElement("a");
+    placeAt(document, anchor, "after", el);
+    expect(anchor.firstElementChild).toBe(el);
   });
 });
 

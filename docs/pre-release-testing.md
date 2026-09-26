@@ -308,6 +308,28 @@ Check the banner lands under the title/header and above the purchase block, on e
 
 ✅ Exactly one banner per page, correctly placed, no layout breakage.
 
+### B.1a · "Play on GeForce NOW" on owned games
+
+Ownership is read from Steam's markup, never from button text (`src/content/ownership.ts`):
+an `a[href]` in `#game_area_purchase` whose href contains `steam://run/` or
+`steam://launch/`, or the `.game_area_already_in_library` flag. Both are live-Steam
+selectors and can drift silently. **Log in** to a Steam account for this section.
+
+- [ ] A game you **own** that is on GFN — ✅ a green *Play on GeForce NOW* button appears
+      right after Steam's own play button, sized like it, on the same row.
+- [ ] Click it — ✅ Firefox hands `geforcenow://` to the OS and the GFN app opens the game
+      (or prompts for the app when it isn't installed). The page itself stays put.
+- [ ] Switch the store language (footer) to something non-English — ✅ the button still
+      appears: detection must survive a localized "Play" label.
+- [ ] A game you own that is **not** on GFN — ✅ no button, banner says *Not on GeForce NOW*.
+- [ ] A game you **don't** own that is on GFN — ✅ no button; the banner alone links out.
+- [ ] A free-to-play game you have **not** claimed — ✅ no button (its "Play Game" is a
+      `steam://install/` route, which must not read as ownership).
+- [ ] An owned DLC page — ✅ one button at most, next to the base game's play button.
+- [ ] Log out, reload — ✅ the button disappears with the ownership markup.
+- [ ] With Augmented Steam installed (see B.3) — ✅ exactly one button after its purchase
+      area rebuild, not two, not zero.
+
 ### B.2 · Wishlist rows
 
 - [ ] Scroll a wishlist of 50+ games top to bottom, then back up.

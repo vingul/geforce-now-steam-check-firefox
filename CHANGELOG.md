@@ -6,6 +6,16 @@ All notable changes to this project are documented here. The format is based on
 
 ## [Unreleased]
 
+- **"Play on GeForce NOW" beside Steam's play button on games you own.** When a store
+  page shows you already own the game *and* the catalog says it streams, a green button
+  is injected right after Steam's own play button, deep-linking into the GeForce NOW app
+  (web app as the fallback for a cache written before deep links existed). Ownership is
+  read from Steam's markup — the `steam://run/` launch link or the "already in your
+  library" flag — never from the localized button text, so it works in every store
+  language. It comes and goes with the markup: nothing is injected for unowned or
+  unsupported games, and a purchase-area rebuild by Steam or another extension cannot
+  strand a stale button.
+
 ## [1.0.0] — 2026-08-02
 
 First stable release: the AMO listing drops its **experimental** flag. No new page

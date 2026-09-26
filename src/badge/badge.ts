@@ -150,6 +150,52 @@ export function renderStoreBanner(doc: Document, state: BadgeState): HTMLElement
   return el;
 }
 
+/** "Play on GeForce NOW" button for a store page whose game the user already
+ *  owns (content/ownership.ts decides that). Lives next to Steam's own play
+ *  button, so it is styled as one more Steam-sized button rather than as banner
+ *  chrome. Same link policy as the banner: the native app route when the index
+ *  carries a cmsId, the web app as the stale-cache fallback (marked "↗" and opened
+ *  in a new tab), and `null` — render nothing — when the game is not supported or
+ *  the cache predates deep links. Never a wrong link, only fewer. */
+export function renderPlayButton(doc: Document, state: BadgeState): HTMLAnchorElement | null {
+  const { appUrl, webUrl } = resolveBannerLinks(state);
+  const url = appUrl ?? webUrl;
+  if (url === null) return null;
+  const a = doc.createElement("a");
+  a.className = "gfn-check-playbtn";
+  a.href = url;
+  if (appUrl === null) {
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.title = "Open in the GeForce NOW web app";
+  } else {
+    a.title = "Launch in the GeForce NOW app";
+  }
+  const logo = span(doc, "gfn-check-playbtn-logo");
+  logo.appendChild(logoSvg(doc));
+  a.appendChild(logo);
+  a.appendChild(span(doc, "gfn-check-playbtn-text", appUrl !== null ? "Play on GeForce NOW" : "Play on GeForce NOW ↗"));
+  return a;
+}
+
+/** Insert `badge` right after `anchor`, or as `anchor`'s last child, removing
+ *  any prior element that shares badge.id (idempotent re-injection). The
+ *  element-anchored sibling of placeBefore/placeAfter, for callers that have
+ *  already resolved the anchor themselves (content/ownership.ts). */
+export function placeAt(
+  doc: Document,
+  anchor: Element,
+  mode: "after" | "append",
+  badge: HTMLElement,
+): void {
+  if (badge.id) doc.getElementById(badge.id)?.remove();
+  if (mode === "append" || anchor.parentElement === null) {
+    anchor.appendChild(badge);
+    return;
+  }
+  anchor.parentElement.insertBefore(badge, anchor.nextSibling);
+}
+
 /** Compact pill for a wishlist row. */
 export function renderWishlistPill(doc: Document, state: BadgeState): HTMLElement {
   const el = span(doc, `gfn-check-pill gfn-check-pill--${modifier(state)}`);

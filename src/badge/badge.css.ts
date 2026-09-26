@@ -41,6 +41,24 @@ export const BADGE_CSS = `
   text-decoration:none; }
 .gfn-check-banner .gfn-check-web:hover { border-color:#76b900; color:#8fd11a; }
 
+/* Owned-game "Play on GeForce NOW" button: a sibling of Steam's own green play
+   button inside the purchase block, sized to match .btn_medium (32px tall,
+   15px Motiva Sans) so the two read as one row of buttons. Explicit colors and
+   no underline so Steam's anchor styles can't restyle it; the hover brightens
+   like Steam's does. */
+.gfn-check-playbtn { display:inline-flex; align-items:center; gap:7px;
+  vertical-align:middle; box-sizing:border-box; height:32px; margin-left:6px;
+  padding:0 15px 0 11px; border-radius:2px; border:none;
+  background:linear-gradient(to right,#76b900 5%,#4f8a00 95%);
+  color:#d2efa6 !important; font-size:15px; line-height:32px; font-weight:normal;
+  font-family:"Motiva Sans",Arial,Helvetica,sans-serif; text-decoration:none !important;
+  white-space:nowrap; cursor:pointer; }
+.gfn-check-playbtn:hover { background:linear-gradient(to right,#8fd11a 5%,#5fa400 95%);
+  color:#fff !important; text-decoration:none !important; }
+.gfn-check-playbtn-logo { width:18px; height:18px; flex:0 0 auto; }
+.gfn-check-playbtn-logo svg { width:100%; height:100%; display:block; }
+.gfn-check-playbtn-text { flex:0 0 auto; }
+
 .gfn-check-pill { display:inline-flex; align-items:center; gap:5px; font-size:12px;
   padding:3px 9px; border-radius:10px; white-space:nowrap; font-weight:bold;
   font-family:Arial,Helvetica,sans-serif; }
