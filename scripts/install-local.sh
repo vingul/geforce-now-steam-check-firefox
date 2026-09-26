@@ -31,10 +31,25 @@
 #   FIREFOX=<path>      Firefox binary (or "firefoxdeveloperedition", "nightly") to
 #                       launch in `run` mode; web-ext auto-detects when unset.
 #   SKIP_CHECK=1        skip typecheck + tests before building.
+#   All of these may also be put in .amo-credentials (KEY=value per line) at the
+#   repo root, alongside WEB_EXT_API_KEY / WEB_EXT_API_SECRET for `sign`.
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
 mode="${1:-run}"
+
+# Credentials and overrides can live in .amo-credentials at the repo root
+# (gitignored; see .amo-credentials.example) instead of the environment, which
+# is easier than exporting variables in whichever shell you happen to be in.
+# Environment variables already set take precedence over the file.
+if [ -f .amo-credentials ]; then
+  while IFS='=' read -r key value || [ -n "$key" ]; do
+    key="${key%%[[:space:]]*}"
+    case "$key" in ''|'#'*) continue ;; esac
+    value="${value%$'\r'}"
+    if [ -z "${!key:-}" ]; then export "$key=$value"; fi
+  done < .amo-credentials
+fi
 
 NODE_MAJOR_REQUIRED=22
 
@@ -186,8 +201,15 @@ Release Firefox refuses unsigned add-ons permanently; use  $0 sign  for that.
 MSG
     ;;
   sign)
-    : "${WEB_EXT_API_KEY:?set WEB_EXT_API_KEY (AMO API credentials: https://addons.mozilla.org/developers/addon/api/key/)}"
-    : "${WEB_EXT_API_SECRET:?set WEB_EXT_API_SECRET}"
+    if [ -z "${WEB_EXT_API_KEY:-}" ] || [ -z "${WEB_EXT_API_SECRET:-}" ]; then
+      cat >&2 <<MSG
+error: AMO API credentials not found.
+       Put them in .amo-credentials at the repo root (copy .amo-credentials.example),
+       or export WEB_EXT_API_KEY and WEB_EXT_API_SECRET in this shell.
+       Keys: https://addons.mozilla.org/developers/addon/api/key/
+MSG
+      exit 1
+    fi
     echo "==> signing via AMO (unlisted channel) as ${addon_id}"
     echo "    note: if AMO rejects the id as already taken, re-run with ADDON_ID=<new id>;"
     echo "          if it says this version already exists, re-run with ADDON_VERSION=<new version>"

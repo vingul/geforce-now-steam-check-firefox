@@ -25,10 +25,22 @@ rem               upstream author's AMO listing; signing a fork needs a new one)
 rem   ADDON_VERSION  override the manifest version (AMO signs each version once).
 rem   FIREFOX     path to firefox.exe for "run" mode (auto-detected when unset).
 rem   SKIP_CHECK  set to 1 to skip typecheck + tests before building.
+rem   All of these may also be put in .amo-credentials (KEY=value per line) at
+rem   the repo root, alongside WEB_EXT_API_KEY / WEB_EXT_API_SECRET for "sign".
 
 cd /d "%~dp0.."
 set "MODE=%~1"
 if "%MODE%"=="" set "MODE=run"
+
+rem Credentials and overrides can live in .amo-credentials at the repo root
+rem (gitignored; see .amo-credentials.example) instead of the environment, which
+rem is easier than setting variables in whichever shell you happen to be in.
+rem Variables already set take precedence over the file.
+if exist .amo-credentials (
+  for /f "usebackq eol=# tokens=1,* delims==" %%a in (".amo-credentials") do (
+    if not defined %%a set "%%a=%%b"
+  )
+)
 
 rem ---- Node.js 22+: install via winget when missing or too old -------------
 set "NODE_MAJOR=0"
@@ -133,14 +145,17 @@ echo Release Firefox refuses unsigned add-ons permanently; use  %~nx0 sign  for 
 exit /b 0
 
 :sign
-if "%WEB_EXT_API_KEY%"=="" (
-  echo error: set WEB_EXT_API_KEY ^(AMO API credentials: https://addons.mozilla.org/developers/addon/api/key/^) 1>&2
-  exit /b 1
-)
-if "%WEB_EXT_API_SECRET%"=="" (
-  echo error: set WEB_EXT_API_SECRET 1>&2
-  exit /b 1
-)
+if "%WEB_EXT_API_KEY%"=="" goto :no_creds
+if "%WEB_EXT_API_SECRET%"=="" goto :no_creds
+goto :have_creds
+:no_creds
+echo error: AMO API credentials not found. 1>&2
+echo        Put them in .amo-credentials at the repo root ^(copy .amo-credentials.example^), 1>&2
+echo        or set WEB_EXT_API_KEY and WEB_EXT_API_SECRET in this shell 1>&2
+echo        ^(cmd: set NAME=value   PowerShell: $env:NAME="value"^). 1>&2
+echo        Keys: https://addons.mozilla.org/developers/addon/api/key/ 1>&2
+exit /b 1
+:have_creds
 echo ==^> signing via AMO ^(unlisted channel^) as %CURRENT_ID%
 echo     note: if AMO rejects the id as already taken, re-run with ADDON_ID=^<new id^>;
 echo           if it says this version already exists, re-run with ADDON_VERSION=^<new version^>

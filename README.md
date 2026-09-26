@@ -37,10 +37,11 @@ GeForce NOW catalog and draws a small badge:
   - `xpi` — builds an unsigned `.xpi` in `web-ext-artifacts/`. Installs permanently in
     Firefox Developer Edition / Nightly / ESR once `xpinstall.signatures.required` is
     `false` in `about:config`; release Firefox only takes it temporarily.
-  - `sign` — signs through AMO's unlisted channel (`WEB_EXT_API_KEY` /
-    `WEB_EXT_API_SECRET`) for a permanent install in release Firefox. Set
-    `ADDON_ID=<your id>` when signing a fork (the stock id is the upstream AMO listing's)
-    and bump `ADDON_VERSION=<x.y.z>` on each re-sign: AMO signs a given version once.
+  - `sign` — signs through AMO's unlisted channel for a permanent install in release
+    Firefox. Copy `.amo-credentials.example` to `.amo-credentials` (gitignored) and fill
+    in your AMO API key and secret, an `ADDON_ID` of your own (the stock id is the
+    upstream AMO listing's) and an `ADDON_VERSION` you bump on each re-sign, since AMO
+    signs a given version once. Environment variables of the same names also work.
 
 Badges work as soon as it's installed; there's nothing to accept first. A welcome tab
 offers optional direct access to NVIDIA's catalog — worth taking, since it keeps checks
