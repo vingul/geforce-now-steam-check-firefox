@@ -15,6 +15,10 @@
 #                                   # for a permanent install in *release* Firefox.
 #                                   # Needs WEB_EXT_API_KEY / WEB_EXT_API_SECRET.
 #
+# Node.js 22+ is the only prerequisite. If it is missing (or older), the script
+# installs it — Homebrew on a Mac that has it, nvm everywhere else — and carries
+# on in the same run. To check by hand:  node -v
+#
 # Environment:
 #   ADDON_ID=<id>       override browser_specific_settings.gecko.id in the built
 #                       manifest. The stock id belongs to the upstream author's
@@ -29,20 +33,61 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 mode="${1:-run}"
 
-need() {
-  command -v "$1" >/dev/null 2>&1 || {
-    echo "error: '$1' not found. Install Node.js 22+ (https://nodejs.org) or run 'mise install' (mise.toml pins it)." >&2
+NODE_MAJOR_REQUIRED=22
+
+node_ok() {
+  command -v node >/dev/null 2>&1 && command -v npm >/dev/null 2>&1 &&
+    [ "$(node -p 'process.versions.node.split(".")[0]')" -ge "$NODE_MAJOR_REQUIRED" ]
+}
+
+# Install Node.js when it is missing or too old. Homebrew on a Mac that has it;
+# otherwise nvm (https://github.com/nvm-sh/nvm), which needs no sudo and does not
+# touch a system Node. Either way the new binary is put on this script's PATH so
+# the build continues in the same run.
+ensure_node() {
+  node_ok && return 0
+  if command -v node >/dev/null 2>&1; then
+    echo "==> Node.js $(node -v) found, but ${NODE_MAJOR_REQUIRED}+ is required — installing"
+  else
+    echo "==> Node.js not found — installing"
+  fi
+
+  if [ "$(uname -s)" = "Darwin" ] && command -v brew >/dev/null 2>&1; then
+    brew install "node@${NODE_MAJOR_REQUIRED}"
+    export PATH="$(brew --prefix "node@${NODE_MAJOR_REQUIRED}")/bin:$PATH"
+    node_ok && return 0
+    echo "warning: Homebrew node@${NODE_MAJOR_REQUIRED} did not end up on PATH; falling back to nvm" >&2
+  fi
+
+  export NVM_DIR="${NVM_DIR:-$HOME/.nvm}"
+  if [ ! -s "$NVM_DIR/nvm.sh" ]; then
+    command -v curl >/dev/null 2>&1 || {
+      echo "error: curl is needed to download nvm. Install curl, or install Node.js ${NODE_MAJOR_REQUIRED}+ from https://nodejs.org and re-run." >&2
+      exit 1
+    }
+    curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+  fi
+  # nvm's own functions are not written for `set -eu`: sourcing it, and its
+  # install/use, trip on unset variables and non-zero probes. Relax both only for
+  # the nvm calls, then restore.
+  set +eu
+  # shellcheck disable=SC1091
+  . "$NVM_DIR/nvm.sh" --no-use
+  nvm install "$NODE_MAJOR_REQUIRED" && nvm use "$NODE_MAJOR_REQUIRED" >/dev/null
+  nvm_status=$?
+  set -eu
+  [ "$nvm_status" -eq 0 ] || {
+    echo "error: nvm could not install Node.js ${NODE_MAJOR_REQUIRED}. Install it from https://nodejs.org and re-run." >&2
     exit 1
   }
-}
-need node
-need npm
 
-node_major="$(node -p 'process.versions.node.split(".")[0]')"
-if [ "$node_major" -lt 22 ]; then
-  echo "error: Node.js 22+ required, found $(node -v)" >&2
-  exit 1
-fi
+  node_ok || {
+    echo "error: Node.js ${NODE_MAJOR_REQUIRED}+ still not available. Install it from https://nodejs.org and re-run." >&2
+    exit 1
+  }
+  echo "==> Node.js $(node -v) ready (open a new terminal for it to be on PATH there too)"
+}
+ensure_node
 
 if [ ! -d node_modules ]; then
   echo "==> installing dependencies (npm ci)"

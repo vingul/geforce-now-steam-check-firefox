@@ -15,6 +15,10 @@ rem   scripts\install-local.cmd sign   build and sign through AMO (unlisted) for
 rem                                    permanent install in release Firefox.
 rem                                    Needs WEB_EXT_API_KEY / WEB_EXT_API_SECRET.
 rem
+rem Node.js 22+ is the only prerequisite. If it is missing (or older) the script
+rem installs it with winget (built into Windows 10/11) and carries on. To check by
+rem hand:  node -v
+rem
 rem Environment:
 rem   ADDON_ID    override the add-on id in the built manifest (the stock id is the
 rem               upstream author's AMO listing; signing a fork needs a new one).
@@ -25,20 +29,33 @@ cd /d "%~dp0.."
 set "MODE=%~1"
 if "%MODE%"=="" set "MODE=run"
 
-where node >nul 2>nul || (
-  echo error: node not found. Install Node.js 22+ from https://nodejs.org 1>&2
-  exit /b 1
-)
-where npm >nul 2>nul || (
-  echo error: npm not found. Install Node.js 22+ from https://nodejs.org 1>&2
-  exit /b 1
-)
+rem ---- Node.js 22+: install via winget when missing or too old -------------
+set "NODE_MAJOR=0"
+where node >nul 2>nul && for /f %%v in ('node -p "process.versions.node.split('.')[0]"') do set "NODE_MAJOR=%%v"
+if %NODE_MAJOR% GEQ 22 goto :node_ok
 
-for /f %%v in ('node -p "process.versions.node.split('.')[0]"') do set "NODE_MAJOR=%%v"
-if %NODE_MAJOR% LSS 22 (
-  echo error: Node.js 22+ required 1>&2
+if %NODE_MAJOR% EQU 0 (
+  echo ==^> Node.js not found - installing with winget
+) else (
+  echo ==^> Node.js %NODE_MAJOR%.x found, but 22+ is required - upgrading with winget
+)
+where winget >nul 2>nul || (
+  echo error: winget is not available. Install Node.js 22+ from https://nodejs.org and re-run. 1>&2
   exit /b 1
 )
+call winget install --id OpenJS.NodeJS.LTS -e --accept-source-agreements --accept-package-agreements
+rem winget updates the machine PATH, not this window's; add the default location
+rem for the rest of this run so the build continues without reopening a terminal.
+set "PATH=%ProgramFiles%\nodejs;%LOCALAPPDATA%\Programs\nodejs;%PATH%"
+set "NODE_MAJOR=0"
+where node >nul 2>nul && for /f %%v in ('node -p "process.versions.node.split('.')[0]"') do set "NODE_MAJOR=%%v"
+if %NODE_MAJOR% LSS 22 (
+  echo error: Node.js 22+ still not on PATH. Open a new terminal and re-run this script. 1>&2
+  exit /b 1
+)
+echo ==^> Node.js ready ^(open a new terminal for it to be on PATH there too^)
+
+:node_ok
 
 if not exist node_modules (
   echo ==^> installing dependencies ^(npm ci^)

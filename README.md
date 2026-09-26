@@ -28,8 +28,10 @@ GeForce NOW catalog and draws a small badge:
 - **From source:** clone the repo, run `just build`, then load it via `about:debugging` →
   This Firefox → Load Temporary Add-on → pick any file in `dist/`. Temporary add-ons
   unload when Firefox restarts.
-- **From this checkout, scripted:** `scripts/install-local.sh` (macOS/Linux/Git Bash) or
-  `scripts\install-local.cmd` (Windows) needs only Node.js 22+ and does the rest:
+- **From this checkout, scripted:** `scripts/install-local.sh` (macOS/Linux) or
+  `scripts\install-local.cmd` (Windows) does the rest, including installing Node.js 22
+  when it is missing or too old (Homebrew or [nvm](https://github.com/nvm-sh/nvm) on
+  macOS/Linux, `winget` on Windows; check with `node -v`):
   - `run` _(default)_ — builds and launches Firefox with the extension loaded, in a
     persistent dev profile next to the repo. Nothing to sign; reloads on every start.
   - `xpi` — builds an unsigned `.xpi` in `web-ext-artifacts/`. Installs permanently in
