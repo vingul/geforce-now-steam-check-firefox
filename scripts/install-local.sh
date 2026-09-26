@@ -120,9 +120,21 @@ addon_id="$(node -p "require('./dist/manifest.json').browser_specific_settings.g
 
 case "$mode" in
   run)
-    echo "==> launching Firefox with the extension loaded (Ctrl+C to stop)"
+    cat <<MSG
+==> launching Firefox with the extension loaded (Ctrl+C to stop)
+
+    This is a SEPARATE Firefox window with its own profile (.firefox-dev-profile/),
+    not your everyday one: look for the add-on there, not in a Firefox that was
+    already open. It opens on about:debugging (the add-on must be listed under
+    "Temporary Extensions") and on a Steam game page that is on GeForce NOW.
+    Firefox 128+ is required; below that web-ext prints an "incompatible" error
+    right here and nothing is installed.
+
+MSG
     mkdir -p .firefox-dev-profile
-    args=(run --source-dir dist --firefox-profile .firefox-dev-profile --keep-profile-changes)
+    args=(run --source-dir dist --firefox-profile .firefox-dev-profile --keep-profile-changes
+      --start-url "about:debugging#/runtime/this-firefox"
+      --start-url "https://store.steampowered.com/app/1091500/")
     [ -n "${FIREFOX:-}" ] && args+=(--firefox "$FIREFOX")
     exec npx web-ext "${args[@]}"
     ;;

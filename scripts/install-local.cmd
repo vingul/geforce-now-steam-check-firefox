@@ -31,7 +31,7 @@ if "%MODE%"=="" set "MODE=run"
 
 rem ---- Node.js 22+: install via winget when missing or too old -------------
 set "NODE_MAJOR=0"
-where node >nul 2>nul && for /f %%v in ('node -p "process.versions.node.split('.')[0]"') do set "NODE_MAJOR=%%v"
+where node >nul 2>nul && for /f "usebackq" %%v in (`node -p "process.versions.node.split('.')[0]"`) do set "NODE_MAJOR=%%v"
 if %NODE_MAJOR% GEQ 22 goto :node_ok
 
 if %NODE_MAJOR% EQU 0 (
@@ -48,7 +48,7 @@ rem winget updates the machine PATH, not this window's; add the default location
 rem for the rest of this run so the build continues without reopening a terminal.
 set "PATH=%ProgramFiles%\nodejs;%LOCALAPPDATA%\Programs\nodejs;%PATH%"
 set "NODE_MAJOR=0"
-where node >nul 2>nul && for /f %%v in ('node -p "process.versions.node.split('.')[0]"') do set "NODE_MAJOR=%%v"
+where node >nul 2>nul && for /f "usebackq" %%v in (`node -p "process.versions.node.split('.')[0]"`) do set "NODE_MAJOR=%%v"
 if %NODE_MAJOR% LSS 22 (
   echo error: Node.js 22+ still not on PATH. Open a new terminal and re-run this script. 1>&2
   exit /b 1
@@ -77,8 +77,8 @@ if not "%ADDON_ID%"=="" (
   call node -e "const fs=require('fs');const p='dist/manifest.json';const m=JSON.parse(fs.readFileSync(p,'utf8'));m.browser_specific_settings.gecko.id=process.env.ADDON_ID;fs.writeFileSync(p,JSON.stringify(m,null,2)+'\n');" || exit /b 1
 )
 
-for /f %%v in ('node -p "require('./dist/manifest.json').version"') do set "VERSION=%%v"
-for /f %%v in ('node -p "require('./dist/manifest.json').browser_specific_settings.gecko.id"') do set "CURRENT_ID=%%v"
+for /f "usebackq" %%v in (`node -p "require('./dist/manifest.json').version"`) do set "VERSION=%%v"
+for /f "usebackq" %%v in (`node -p "require('./dist/manifest.json').browser_specific_settings.gecko.id"`) do set "CURRENT_ID=%%v"
 
 if /i "%MODE%"=="run" goto :run
 if /i "%MODE%"=="xpi" goto :xpi
@@ -88,11 +88,20 @@ exit /b 2
 
 :run
 echo ==^> launching Firefox with the extension loaded ^(Ctrl+C to stop^)
+echo.
+echo     This is a SEPARATE Firefox window with its own profile ^(.firefox-dev-profile\^),
+echo     not your everyday one: look for the add-on there, not in a Firefox that was
+echo     already open. It opens on about:debugging ^(the add-on must be listed under
+echo     "Temporary Extensions"^) and on a Steam game page that is on GeForce NOW.
+echo     Firefox 128+ is required; below that web-ext prints an "incompatible" error
+echo     right here and nothing is installed.
+echo.
 if not exist .firefox-dev-profile mkdir .firefox-dev-profile
+set "WEBEXT_ARGS=run --source-dir dist --firefox-profile .firefox-dev-profile --keep-profile-changes --start-url "about:debugging#/runtime/this-firefox" --start-url "https://store.steampowered.com/app/1091500/""
 if "%FIREFOX%"=="" (
-  call npx web-ext run --source-dir dist --firefox-profile .firefox-dev-profile --keep-profile-changes
+  call npx web-ext %WEBEXT_ARGS%
 ) else (
-  call npx web-ext run --source-dir dist --firefox-profile .firefox-dev-profile --keep-profile-changes --firefox "%FIREFOX%"
+  call npx web-ext %WEBEXT_ARGS% --firefox "%FIREFOX%"
 )
 exit /b %ERRORLEVEL%
 
