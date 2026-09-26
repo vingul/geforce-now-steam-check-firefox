@@ -37,16 +37,11 @@ export const BADGE_CSS = `
 .gfn-check-launch-btn:focus-visible { outline:2px solid #cdee87; outline-offset:2px; }
 .gfn-check-launch-app { padding-right:4px; }
 
-/* The lockup: lime NVIDIA block + charcoal "GEFORCE / NOW" block, 24px tall. */
-.gfn-check-lockup { display:inline-flex; align-items:stretch; height:24px;
-  border-radius:1px; overflow:hidden; text-shadow:none; }
-.gfn-check-lockup-nv { display:flex; align-items:center; justify-content:center;
-  width:26px; background:#76b900; }
-.gfn-check-lockup-nv svg { width:20px; height:12px; display:block; }
-.gfn-check-lockup-gfn { display:flex; flex-direction:column; justify-content:center;
-  padding:0 6px; background:#1a1a1a; color:#fff; }
-.gfn-check-lockup-line { display:block; font-size:8px; line-height:9px; font-weight:bold;
-  letter-spacing:.5px; font-family:Arial,Helvetica,sans-serif; }
+/* The lockup: the vector logo at the button's inner height; width follows its
+   aspect ratio. Rounded 1px like the button's own corners, no text-shadow so
+   the SVG is not smeared by the button's. */
+.gfn-check-lockup { display:inline-flex; align-items:center; height:24px; text-shadow:none; }
+.gfn-check-lockup svg { height:24px; width:auto; display:block; border-radius:1px; }
 
 .gfn-check-pill { display:inline-flex; align-items:center; gap:5px; font-size:12px;
   padding:3px 9px; border-radius:10px; white-space:nowrap; font-weight:bold;

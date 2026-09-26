@@ -97,10 +97,15 @@ describe("renderLaunchButtons", () => {
     expect(app.querySelector(".gfn-check-launch-label")!.textContent).toBe("Play on");
     const lockup = app.querySelector(".gfn-check-lockup")!;
     expect(lockup).not.toBeNull();
+    expect(lockup.getAttribute("role")).toBe("img");
     expect(lockup.getAttribute("aria-label")).toBe("GeForce NOW");
-    expect(lockup.querySelector(".gfn-check-lockup-nv svg")).not.toBeNull();
-    const lines = [...lockup.querySelectorAll(".gfn-check-lockup-line")].map((l) => l.textContent);
-    expect(lines).toEqual(["GEFORCE", "NOW"]);
+    const svg = lockup.querySelector("svg")!;
+    expect(svg.getAttribute("viewBox")).toBe("108 221 584 157");
+    // Layered recolouring of the monochrome source: lime outline, black eye,
+    // white GEFORCE NOW letters, charcoal showing through the holes.
+    const fills = new Set([...svg.querySelectorAll("path, rect, polygon")].map((n) => n.getAttribute("fill")));
+    expect(fills).toEqual(new Set(["#76b900", "#000", "#fff", "#1a1a1a"]));
+    expect(lockup.textContent).toBe("");
 
     const web = buttons[1]!;
     expect(web.className).toContain("gfn-check-launch-web");

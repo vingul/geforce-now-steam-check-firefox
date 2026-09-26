@@ -1,6 +1,7 @@
 import type { BadgeState } from "../feed/resolve-state";
 import { BADGE_CSS } from "./badge.css";
 import { resolveLaunchLinks } from "./gfn-link";
+import { renderGfnLockupSvg } from "./gfn-lockup";
 
 const STYLE_ID = "gfn-check-style";
 const SVG_NS = "http://www.w3.org/2000/svg";
@@ -100,44 +101,15 @@ export function renderStoreBanner(doc: Document, state: BadgeState): HTMLElement
   return el;
 }
 
-/** The NVIDIA GeForce NOW lockup, drawn as DOM + SVG so it needs no asset or
- *  host permission: a lime block carrying a simplified NVIDIA eye mark next to a
- *  charcoal block with "GEFORCE / NOW" stacked in white. Used as the tail of the
- *  app launch button in place of the words "GeForce NOW". */
+/** The NVIDIA GeForce NOW lockup (gfn-lockup.ts), used as the tail of the app
+ *  launch button in place of the words "GeForce NOW". Labelled for assistive
+ *  tech since the SVG itself is decorative markup. */
 function gfnLockup(doc: Document): HTMLElement {
   const lockup = span(doc, "gfn-check-lockup");
+  lockup.setAttribute("role", "img");
   lockup.setAttribute("aria-label", "GeForce NOW");
   lockup.title = "GeForce NOW";
-
-  const nv = span(doc, "gfn-check-lockup-nv");
-  const svg = doc.createElementNS(SVG_NS, "svg");
-  svg.setAttribute("viewBox", "0 0 32 20");
-  svg.setAttribute("aria-hidden", "true");
-  // Eye outline: pointed at the left, rounded at the right.
-  const outline = doc.createElementNS(SVG_NS, "path");
-  outline.setAttribute(
-    "d",
-    "M2 10 C7 3 15 1 22 3 C27 4.5 30 7 30 10 C30 13 27 15.5 22 17 C15 19 7 17 2 10 Z",
-  );
-  outline.setAttribute("fill", "none");
-  outline.setAttribute("stroke", "#000");
-  outline.setAttribute("stroke-width", "2.2");
-  outline.setAttribute("stroke-linejoin", "round");
-  // The inner curl that gives the mark its spiral.
-  const curl = doc.createElementNS(SVG_NS, "path");
-  curl.setAttribute("d", "M9 10 C11 5.5 19 4.5 22 8 C24.5 11 21 15 16.5 14 C13.5 13.3 13 10.5 15.5 9.5");
-  curl.setAttribute("fill", "none");
-  curl.setAttribute("stroke", "#000");
-  curl.setAttribute("stroke-width", "2.2");
-  curl.setAttribute("stroke-linecap", "round");
-  svg.append(outline, curl);
-  nv.appendChild(svg);
-
-  const gfn = span(doc, "gfn-check-lockup-gfn");
-  gfn.appendChild(span(doc, "gfn-check-lockup-line", "GEFORCE"));
-  gfn.appendChild(span(doc, "gfn-check-lockup-line", "NOW"));
-
-  lockup.append(nv, gfn);
+  lockup.appendChild(renderGfnLockupSvg(doc));
   return lockup;
 }
 

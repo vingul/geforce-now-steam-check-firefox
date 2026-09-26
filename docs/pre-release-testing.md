@@ -320,7 +320,7 @@ an `a[href]` anywhere outside Steam's global chrome whose href contains
 
 - [ ] A game you **own** that is on GFN — ✅ two buttons appear right after Steam's own
       play button, on its row and at its size, green-tinted: *Play on* ending in the
-      NVIDIA GeForce NOW lockup (lime eye block + charcoal "GEFORCE / NOW"), and
+      NVIDIA GeForce NOW lockup (the real logo: lime NVIDIA block + charcoal "GEFORCE NOW"), and
       *Play in Web*.
 - [ ] Click *Play on ▮GeForce NOW▮* — ✅ Firefox hands `geforcenow://` to the OS and the
       GFN app opens the game (or prompts for the app when it isn't installed). The page stays.
